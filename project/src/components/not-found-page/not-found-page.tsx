@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import './css/not-found-page.css';
 
 function NotFoundPage() {
   return (
-    <div className="page page--favorites-empty">
+    <div className="page page--not-found">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -32,12 +33,12 @@ function NotFoundPage() {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites page__main--favorites-empty">
-        <div className="page__favorites-container container">
-          <section className="favorites favorites--empty">
+      <main className="page__main page__main--not-found">
+        <div className="container">
+          <section>
             <h1 className="visually-hidden">Page is not found</h1>
-            <div className="favorites__status-wrapper">
-              <b className="favorites__status">404 Not Found</b>
+            <div className="not-found__status-wrapper">
+              <b className="not-found__status">Not Found</b>
               <Link to={AppRoute.Main}>Go to main page</Link>
             </div>
           </section>
