@@ -3,7 +3,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import AllRentalOffersPage from '../all-rental-offers-page/all-rental-offers-page';
 import FavoritesPage from '../favorites-page/favorites-page';
 import NotFoundPage from '../not-found-page/not-found-page';
-import PrivateRoute from '../private-route/private-route';
+import PrivateRoute from '../../hocs/private-route/private-route';
 import RentalOfferPage from '../rental-offer-page/rental-offer-page';
 import SignInPage from '../sign-in-page/sign-in-page';
 
