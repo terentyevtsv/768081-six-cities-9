@@ -1,10 +1,12 @@
+import { Offer } from '../../types/offer';
 import RentalOfferCard from '../rental-offer-card/rental-offer-card';
 
 type AllRentalOffersPageProps = {
-  stayPlacesCount: number
+  stayPlacesCount: number,
+  offers: Offer[]
 };
 
-function AllRentalOffersPage({stayPlacesCount}: AllRentalOffersPageProps) {
+function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps) {
   return (
     <div className="page page--gray page--main">
       <header className="header">

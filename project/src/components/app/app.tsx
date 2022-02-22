@@ -24,6 +24,7 @@ function App({stayPlacesCount, offers, reviews}: AppProps): JSX.Element {
           element={
             <AllRentalOffersPage
               stayPlacesCount={stayPlacesCount}
+              offers={offers}
             />
           }
         />
