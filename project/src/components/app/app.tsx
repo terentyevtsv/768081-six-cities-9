@@ -6,12 +6,16 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import PrivateRoute from '../../hocs/private-route/private-route';
 import RentalOfferPage from '../rental-offer-page/rental-offer-page';
 import SignInPage from '../sign-in-page/sign-in-page';
+import { Offer } from '../../types/offer';
+import { Review } from '../../types/review';
 
 type AppProps = {
-  stayPlacesCount: number
+  stayPlacesCount: number,
+  offers: Offer[],
+  reviews: Review[]
 };
 
-function App({stayPlacesCount}: AppProps): JSX.Element {
+function App({stayPlacesCount, offers, reviews}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
