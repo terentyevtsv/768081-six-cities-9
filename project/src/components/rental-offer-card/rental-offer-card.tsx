@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MAX_RATING } from '../../const';
+import { getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 
 type RentalOfferCardProps = {
@@ -44,7 +44,7 @@ function RentalOfferCard({offer}: RentalOfferCardProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${Math.round(offer.rating) / MAX_RATING * 100}%`}}></span>
+            <span style={{width: `${getRatingPercent(offer.rating)}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

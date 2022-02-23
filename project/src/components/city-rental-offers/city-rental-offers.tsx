@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MAX_RATING } from '../../const';
+import { getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 
 type CityRentalOffersProps = {
@@ -32,7 +32,7 @@ function CityRentalOffers({cityName, offers}: CityRentalOffersProps) {
                   </div>
                 }
                 <div className="favorites__image-wrapper place-card__image-wrapper">
-                  <a href="/">
+                  <Link to={`/offer/${offer.id}`}>
                     <img
                       className="place-card__image"
                       src={offer.previewImage}
@@ -40,7 +40,7 @@ function CityRentalOffers({cityName, offers}: CityRentalOffersProps) {
                       height="110"
                       alt="Place im"
                     />
-                  </a>
+                  </Link>
                 </div>
                 <div className="favorites__card-info place-card__info">
                   <div className="place-card__price-wrapper">
@@ -60,7 +60,7 @@ function CityRentalOffers({cityName, offers}: CityRentalOffersProps) {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: `${Math.round(offer.rating) / MAX_RATING * 100}%`}}></span>
+                      <span style={{width: `${getRatingPercent(offer.rating)}%`}}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>

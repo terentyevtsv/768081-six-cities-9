@@ -12,7 +12,7 @@ export const offers: Offer[] = [
     rating: 4,
     images: [
       'img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg',
-      'img/apartment-03.jpg', 'img/studio-01.jpg', 'img/apartment-01.jpg',
+      'img/apartment-03.jpg', 'img/studio-01.jpg',
     ],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     bedroomsCount: 3,
