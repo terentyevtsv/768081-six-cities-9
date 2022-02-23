@@ -17,10 +17,10 @@ export type User = {
 };
 
 export enum HouseType {
-  Apartment = 'apartment',
-  PrivateRoom = 'room',
-  House = 'house',
-  Hotel = 'hotel'
+  Apartment = 'Apartment',
+  PrivateRoom = 'Private room',
+  House = 'House',
+  Hotel = 'Hotel'
 }
 
 export type Offer = {

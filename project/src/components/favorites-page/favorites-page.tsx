@@ -7,12 +7,18 @@ type FavoritesPageProps = {
 
 type GroupedOffers = {
   [key: string]: Offer[]
-};
+}
 
 function FavoritesPage({offers}: FavoritesPageProps) {
   const groupedOffers: GroupedOffers = {};
-  offers.forEach((offer) =>
-    groupedOffers[offer.city.name].push(offer));
+  offers.forEach((offer) => {
+    const cityName = offer.city.name;
+    if (groupedOffers[cityName] === undefined) {
+      groupedOffers[cityName] = [];
+    }
+
+    groupedOffers[cityName].push(offer);
+  });
 
   return (
     <div className="page">
