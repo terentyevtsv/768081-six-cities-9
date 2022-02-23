@@ -3,12 +3,20 @@ import { getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 
 type RentalOfferCardProps = {
-  offer: Offer
+  offer: Offer,
+  onMouseOver(offer: Offer): void
 };
 
-function RentalOfferCard({offer}: RentalOfferCardProps) {
+function RentalOfferCard({offer, onMouseOver}: RentalOfferCardProps) {
+  const handleMouseOver = () => {
+    onMouseOver(offer);
+  };
+
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseOver={handleMouseOver}
+    >
       {
         offer.isPremium &&
         <div className="place-card__mark">
