@@ -1,18 +1,12 @@
-import { useState } from 'react';
 import { Offer } from '../../types/offer';
 import RentalOfferCard from '../rental-offer-card/rental-offer-card';
 
 type RentalOfferCardsProps = {
-  offers: Offer[]
+  offers: Offer[],
+  onOfferCardHover(offer: Offer): void
 };
 
-function RentalOfferCards({offers}: RentalOfferCardsProps) {
-  const [, setActiveOffer] = useState<Offer>();
-
-  const handleOfferCardMouseOver = (offer: Offer) => {
-    setActiveOffer(offer);
-  };
-
+function RentalOfferCards({offers, onOfferCardHover}: RentalOfferCardsProps) {
   return (
     <div className="cities__places-list places__list tabs__content">
       {
@@ -20,7 +14,7 @@ function RentalOfferCards({offers}: RentalOfferCardsProps) {
           <RentalOfferCard
             key={offer.id}
             offer={offer}
-            onMouseOver={handleOfferCardMouseOver}
+            onMouseOver={onOfferCardHover}
           />
         ))
       }

@@ -29,14 +29,14 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 1,
-        zoom: 16,
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12,
       },
     },
     location: {
-      latitude: 1,
-      longitude: 1,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 16,
     },
   },
@@ -65,14 +65,14 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 1,
-        zoom: 16,
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12,
       },
     },
     location: {
-      latitude: 1,
-      longitude: 1,
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
       zoom: 16,
     },
   },
@@ -101,14 +101,14 @@ export const offers: Offer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 1,
-        longitude: 1,
-        zoom: 16,
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12,
       },
     },
     location: {
-      latitude: 1,
-      longitude: 1,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 16,
     },
   },
@@ -135,17 +135,17 @@ export const offers: Offer[] = [
       name: 'Max',
     },
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 2,
-        longitude: 2,
-        zoom: 10,
+        latitude: 52.37454,
+        longitude: 4.897976,
+        zoom: 12,
       },
     },
     location: {
-      latitude: 2,
-      longitude: 2,
-      zoom: 10,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 16,
     },
   },
 ];
