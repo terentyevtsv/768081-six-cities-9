@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapType, Offer } from '../../types/offer';
+import { Offer, PlaceCardType } from '../../types/offer';
 import Map from '../map/map';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 
@@ -103,6 +103,7 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
               </form>
               <RentalOfferCards
                 onOfferCardHover={setSelectedOffer}
+                placeCardType={PlaceCardType.CityPlaceCard}
                 offers={offers}
               />
             </section>
@@ -111,7 +112,7 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
                 city={city}
                 offers={offers}
                 selectedOffer={selectedOffer}
-                mapType={MapType.CityOffersMap}
+                placeCardType={PlaceCardType.CityPlaceCard}
               />
             </div>
           </div>

@@ -1,20 +1,23 @@
 import { Link } from 'react-router-dom';
 import { getRatingPercent } from '../../const';
-import { Offer } from '../../types/offer';
+import { Offer, PlaceCardType } from '../../types/offer';
 
 type RentalOfferCardProps = {
   offer: Offer,
-  onMouseOver(offer: Offer): void
+  placeCardType: PlaceCardType,
+  onMouseOver?: (offer: Offer) => void
 };
 
-function RentalOfferCard({offer, onMouseOver}: RentalOfferCardProps) {
+function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardProps) {
   const handleMouseOver = () => {
-    onMouseOver(offer);
+    if (onMouseOver !== undefined) {
+      onMouseOver(offer);
+    }
   };
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={`${placeCardType === PlaceCardType.CityPlaceCard ? 'cities__place-card' : 'near-places__card'} place-card`}
       onMouseOver={handleMouseOver}
     >
       {
@@ -23,7 +26,9 @@ function RentalOfferCard({offer, onMouseOver}: RentalOfferCardProps) {
           <span>Premium</span>
         </div>
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={`${placeCardType === PlaceCardType.CityPlaceCard ? 'cities__image-wrapper' : 'near-places__image-wrapper'} place-card__image-wrapper`}
+      >
         <Link to={`/offer/${offer.id}`}>
           <img
             className="place-card__image"

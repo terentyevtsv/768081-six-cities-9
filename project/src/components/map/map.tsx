@@ -3,13 +3,14 @@ import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import { PIN_HEIGHT, PIN_WIDTH, URL_PIN_CURRENT, URL_PIN_DEFAULT } from '../../const';
 import useMap from '../../hooks/use-map';
-import { City, MapType, Offer } from '../../types/offer';
+import { City, Offer, PlaceCardType } from '../../types/offer';
+import './css/map.css';
 
 type MapProps = {
   city: City,
   offers: Offer[],
   selectedOffer: Offer | null,
-  mapType: MapType
+  placeCardType: PlaceCardType
 };
 
 // Получение иконки пина в записимости от текущего предложения
@@ -39,7 +40,12 @@ const getIcon = (selectedOffer: Offer | null, offer: Offer) => {
 
 const markers: Marker[] = [];
 
-function Map({city, offers, selectedOffer, mapType}: MapProps) {
+function Map({
+  city,
+  offers,
+  selectedOffer,
+  placeCardType,
+}: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   useEffect(() => {
@@ -63,14 +69,28 @@ function Map({city, offers, selectedOffer, mapType}: MapProps) {
     };
   }, [map, offers, selectedOffer]);
 
-  return (
-    <section
-      className={`${mapType} map`}
-      ref={mapRef}
-    >
-
-    </section>
-  );
+  switch (placeCardType) {
+    case PlaceCardType.CityPlaceCard:
+      return (
+        <section
+          className="cities__map map"
+          ref={mapRef}
+        >
+        </section>
+      );
+    case PlaceCardType.NearPlaceCard:
+      return (
+        <div className="cont container">
+          <section
+            className="property__map map"
+            ref={mapRef}
+          >
+          </section>
+        </div>
+      );
+    default:
+      throw new Error('Тип карточки не реализован');
+  }
 }
 
 export default  Map;

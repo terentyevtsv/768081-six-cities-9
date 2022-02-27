@@ -3,10 +3,10 @@ import { offers } from '../../mocks/offers';
 import { Review } from '../../types/review';
 import SubmitCommentForm from '../submit-comment-form/submit-comment-form';
 import { getRatingPercent } from '../../const';
-import { Link } from 'react-router-dom';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
-import { MapType } from '../../types/offer';
+import { PlaceCardType } from '../../types/offer';
+import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 
 type RentalOfferPageProps = {
   reviews: Review[]
@@ -169,69 +169,16 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
             city={offer.city}
             offers={nearOffers}
             selectedOffer={null}
-            mapType={MapType.OfferMap}
+            placeCardType={PlaceCardType.NearPlaceCard}
           />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              {
-                nearOffers.map((nearOffer) => (
-                  <article
-                    className="near-places__card place-card"
-                    key={nearOffer.id}
-                  >
-                    {
-                      nearOffer.isPremium &&
-                      <div className="place-card__mark">
-                        <span>Premium</span>
-                      </div>
-                    }
-                    <div className="near-places__image-wrapper place-card__image-wrapper">
-                      <Link to={`/offer/${nearOffer.id}`}>
-                        <img
-                          className="place-card__image"
-                          src={nearOffer.previewImage}
-                          width="260"
-                          height="200"
-                          alt="Place im"
-                        />
-                      </Link>
-                    </div>
-                    <div className="place-card__info">
-                      <div className="place-card__price-wrapper">
-                        <div className="place-card__price">
-                          <b className="place-card__price-value">&euro;{nearOffer.price}</b>
-                          <span className="place-card__price-text">&#47;&nbsp;night</span>
-                        </div>
-                        <button
-                          className={`place-card__bookmark-button${nearOffer.isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
-                          type="button"
-                        >
-                          <svg className="place-card__bookmark-icon" width="18" height="19">
-                            <use xlinkHref="#icon-bookmark"></use>
-                          </svg>
-                          <span className="visually-hidden">To bookmarks</span>
-                        </button>
-                      </div>
-                      <div className="place-card__rating rating">
-                        <div className="place-card__stars rating__stars">
-                          <span style={{width: `${getRatingPercent(nearOffer.rating)}%`}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <h2 className="place-card__name">
-                        <Link to={`/offer/${nearOffer.id}`}>
-                          {nearOffer.header}
-                        </Link>
-                      </h2>
-                      <p className="place-card__type">{nearOffer.houseType}</p>
-                    </div>
-                  </article>
-                ))
-              }
-            </div>
+            <RentalOfferCards
+              offers={nearOffers}
+              placeCardType={PlaceCardType.NearPlaceCard}
+            />
           </section>
         </div>
       </main>
