@@ -42,3 +42,7 @@ export type Offer = {
   location: Location
 };
 
+export enum MapType {
+  CityOffersMap = 'cities__map',
+  OfferMap = 'property__map'
+}

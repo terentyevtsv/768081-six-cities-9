@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Offer } from '../../types/offer';
+import { MapType, Offer } from '../../types/offer';
 import Map from '../map/map';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 
@@ -107,7 +107,12 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
               />
             </section>
             <div className="cities__right-section">
-              <Map city={city} offers={offers} selectedOffer={selectedOffer}/>
+              <Map
+                city={city}
+                offers={offers}
+                selectedOffer={selectedOffer}
+                mapType={MapType.CityOffersMap}
+              />
             </div>
           </div>
         </div>

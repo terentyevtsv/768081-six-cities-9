@@ -3,12 +3,13 @@ import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import { PIN_HEIGHT, PIN_WIDTH, URL_PIN_CURRENT, URL_PIN_DEFAULT } from '../../const';
 import useMap from '../../hooks/use-map';
-import { City, Offer } from '../../types/offer';
+import { City, MapType, Offer } from '../../types/offer';
 
 type MapProps = {
   city: City,
   offers: Offer[],
-  selectedOffer: Offer | null
+  selectedOffer: Offer | null,
+  mapType: MapType
 };
 
 // Получение иконки пина в записимости от текущего предложения
@@ -38,7 +39,7 @@ const getIcon = (selectedOffer: Offer | null, offer: Offer) => {
 
 const markers: Marker[] = [];
 
-function Map({city, offers, selectedOffer}: MapProps) {
+function Map({city, offers, selectedOffer, mapType}: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
   useEffect(() => {
@@ -64,7 +65,7 @@ function Map({city, offers, selectedOffer}: MapProps) {
 
   return (
     <section
-      className="cities__map map"
+      className={`${mapType} map`}
       ref={mapRef}
     >
 
