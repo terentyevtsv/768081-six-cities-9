@@ -13,10 +13,6 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
 
-  const handleOfferCardHover = (offer: Offer) => {
-    setSelectedOffer(offer);
-  };
-
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -106,7 +102,7 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
                 </ul>
               </form>
               <RentalOfferCards
-                onOfferCardHover={handleOfferCardHover}
+                onOfferCardHover={setSelectedOffer}
                 offers={offers}
               />
             </section>
