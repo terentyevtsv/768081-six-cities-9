@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Offer } from '../../types/offer';
+import Map from '../map/map';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 
 type AllRentalOffersPageProps = {
@@ -7,6 +9,10 @@ type AllRentalOffersPageProps = {
 };
 
 function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps) {
+  const city = offers[0].city;
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -96,11 +102,12 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
                 </ul>
               </form>
               <RentalOfferCards
+                onOfferCardHover={setSelectedOffer}
                 offers={offers}
               />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={city} offers={offers} selectedOffer={selectedOffer}/>
             </div>
           </div>
         </div>
