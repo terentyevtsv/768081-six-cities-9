@@ -109,10 +109,10 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
             </section>
             <div className="cities__right-section">
               <Map
+                className="cities__map map"
                 city={city}
                 offers={offers}
                 selectedOffer={selectedOffer}
-                placeCardType={PlaceCardType.CityPlaceCard}
               />
             </div>
           </div>

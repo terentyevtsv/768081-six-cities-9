@@ -7,6 +7,7 @@ import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
+import './css/map.css';
 
 type RentalOfferPageProps = {
   reviews: Review[]
@@ -165,12 +166,14 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
               </section>
             </div>
           </div>
-          <Map
-            city={offer.city}
-            offers={nearOffers}
-            selectedOffer={null}
-            placeCardType={PlaceCardType.NearPlaceCard}
-          />
+          <div className="cont container">
+            <Map
+              className="property__map map"
+              city={offer.city}
+              offers={nearOffers}
+              selectedOffer={null}
+            />
+          </div>
         </section>
         <div className="container">
           <section className="near-places places">
