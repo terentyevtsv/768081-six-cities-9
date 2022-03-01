@@ -46,3 +46,8 @@ export enum PlaceCardType {
   CityPlaceCard = 0,
   NearPlaceCard = 1
 }
+
+export type CityOffers = {
+  city: string,
+  offers: Offer[]
+}

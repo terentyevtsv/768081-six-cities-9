@@ -1,13 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Offer } from '../types/offer';
+import { CityOffers } from '../types/offer';
 import { changeCityAction, fillOffersAction } from './action';
 
-type State = {
-  city: string,
-  offers: Offer[]
-}
-
-const initialState: State = {
+const initialState: CityOffers = {
   city: 'Paris',
   offers: [],
 };
