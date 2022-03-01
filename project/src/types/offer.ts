@@ -42,3 +42,7 @@ export type Offer = {
   location: Location
 };
 
+export enum PlaceCardType {
+  CityPlaceCard = 0,
+  NearPlaceCard = 1
+}
