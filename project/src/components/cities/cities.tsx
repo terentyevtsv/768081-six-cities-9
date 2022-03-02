@@ -1,9 +1,22 @@
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { MouseEvent, useEffect } from 'react';
+import { changeCityAction, fillOffersAction } from '../../store/action';
+import { Offer } from '../../types/offer';
+import { getOffers } from '../../rental';
+
 type CityProps = {
   cities: string[],
-  selectedCity: string
+  offers: Offer[]
 }
 
-function Cities({cities, selectedCity}: CityProps) {
+function Cities({cities, offers}: CityProps) {
+  const selectedCity = useAppSelector((state) => state.city);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fillOffersAction(getOffers(selectedCity, offers)));
+  }, [dispatch, offers, selectedCity]);
+
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
@@ -16,6 +29,12 @@ function Cities({cities, selectedCity}: CityProps) {
               <a
                 className={`locations__item-link tabs__item${city === selectedCity ? ' tabs__item--active' : ''}`}
                 href="/"
+                onClick={
+                  (evt: MouseEvent) => {
+                    evt.preventDefault();
+                    dispatch(changeCityAction(city));
+                  }
+                }
               >
                 <span>{city}</span>
               </a>

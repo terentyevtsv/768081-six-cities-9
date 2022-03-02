@@ -13,6 +13,7 @@ export const reducer = createReducer(initialState, (builder) => {
       state.city = action.payload;
     })
     .addCase(fillOffersAction, (state, action) => {
+      state.offers.length = 0;
       action.payload.forEach((offer) =>
         state.offers.push(offer));
     });
