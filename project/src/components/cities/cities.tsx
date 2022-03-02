@@ -1,8 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { MouseEvent, useEffect } from 'react';
-import { changeCityAction, fillOffersAction } from '../../store/action';
+import { MouseEvent } from 'react';
+import { changeCityAction } from '../../store/action';
 import { Offer } from '../../types/offer';
-import { getOffers } from '../../rental';
 
 type CityProps = {
   cities: string[],
@@ -12,10 +11,6 @@ type CityProps = {
 function Cities({cities, offers}: CityProps) {
   const selectedCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fillOffersAction(getOffers(selectedCity, offers)));
-  }, [dispatch, offers, selectedCity]);
 
   return (
     <section className="locations container">

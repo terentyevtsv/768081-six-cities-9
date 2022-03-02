@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cities } from '../../const';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { getOffers } from '../../rental';
+import { fillOffersAction } from '../../store/action';
 import { Offer, PlaceCardType } from '../../types/offer';
 import Cities from '../cities/cities';
 import Map from '../map/map';
@@ -12,10 +14,16 @@ type AllRentalOffersPageProps = {
 
 function AllRentalOffersPage({offers}: AllRentalOffersPageProps) {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
   const tempState = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
   const currentOffers = tempState.offers;
   const cityName = tempState.city;
+
+  useEffect(() => {
+    dispatch(fillOffersAction(getOffers(cityName, offers)));
+  }, [cityName, dispatch, offers]);
 
   // Временно пока так, потом будет логика пустого списка предложений
   const city = currentOffers.length > 0
