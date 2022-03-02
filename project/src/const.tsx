@@ -23,3 +23,12 @@ export const URL_PIN_CURRENT = 'img/pin-active.svg';
 export const PIN_WIDTH = 42;
 export const PIN_HEIGHT = 68;
 
+export const cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
