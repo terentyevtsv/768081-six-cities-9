@@ -63,7 +63,7 @@ function AllRentalOffersPage({offers}: AllRentalOffersPageProps) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <Cities cities={cities} offers={offers}/>
+          <Cities cities={cities}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">

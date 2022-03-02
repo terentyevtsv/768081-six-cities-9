@@ -1,14 +1,12 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { MouseEvent } from 'react';
 import { changeCityAction } from '../../store/action';
-import { Offer } from '../../types/offer';
 
 type CityProps = {
-  cities: string[],
-  offers: Offer[]
+  cities: string[]
 }
 
-function Cities({cities, offers}: CityProps) {
+function Cities({cities}: CityProps) {
   const selectedCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
 
