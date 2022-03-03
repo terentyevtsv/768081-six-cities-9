@@ -21,10 +21,11 @@ function AllRentalOffersPage({offers}: AllRentalOffersPageProps) {
 
   const currentOffers = tempState.offers;
   const cityName = tempState.city;
+  const { sortType } = tempState;
 
   useEffect(() => {
-    dispatch(fillOffersAction(getOffers(cityName, offers)));
-  }, [cityName, dispatch, offers]);
+    dispatch(fillOffersAction(getOffers(cityName, offers, sortType)));
+  }, [cityName, dispatch, offers, sortType]);
 
   // Временно пока так, потом будет логика пустого списка предложений
   const city = currentOffers.length > 0

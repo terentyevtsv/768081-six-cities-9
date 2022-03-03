@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { sortOptions } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { changeSortOptionAction } from '../../store/action';
 
 function SortOptions() {
-  const [sort, setSort] = useState(sortOptions[0]);
+  const sortType = useAppSelector((state) => state.sortType);
+  const [sort, setSort] = useState(sortType);
+
   const [isActive, setIsActive] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -35,6 +41,7 @@ function SortOptions() {
                 () => {
                   setSort(sortOption);
                   setIsActive(!isActive);
+                  dispatch(changeSortOptionAction(sortOption));
                 }
               }
             >
