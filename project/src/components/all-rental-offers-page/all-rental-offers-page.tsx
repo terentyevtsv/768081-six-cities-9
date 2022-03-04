@@ -1,17 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { cities } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { getOffers } from '../../rental';
+import { fillOffersAction } from '../../store/action';
 import { Offer, PlaceCardType } from '../../types/offer';
+import Cities from '../cities/cities';
 import Map from '../map/map';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 
 type AllRentalOffersPageProps = {
-  stayPlacesCount: number,
   offers: Offer[]
 };
 
-function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps) {
-  const city = offers[0].city;
-
+function AllRentalOffersPage({offers}: AllRentalOffersPageProps) {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
+  const tempState = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+
+  const currentOffers = tempState.offers;
+  const cityName = tempState.city;
+
+  useEffect(() => {
+    dispatch(fillOffersAction(getOffers(cityName, offers)));
+  }, [cityName, dispatch, offers]);
+
+  // Временно пока так, потом будет логика пустого списка предложений
+  const city = currentOffers.length > 0
+    ? currentOffers[0].city
+    : offers[0].city;
 
   return (
     <div className="page page--gray page--main">
@@ -46,46 +63,13 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="/">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <Cities cities={cities}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{stayPlacesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{currentOffers.length} places to stay in {cityName}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by </span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -104,14 +88,14 @@ function AllRentalOffersPage({stayPlacesCount, offers}: AllRentalOffersPageProps
               <RentalOfferCards
                 onOfferCardHover={setSelectedOffer}
                 placeCardType={PlaceCardType.CityPlaceCard}
-                offers={offers}
+                offers={currentOffers}
               />
             </section>
             <div className="cities__right-section">
               <Map
                 className="cities__map map"
                 city={city}
-                offers={offers}
+                offers={currentOffers}
                 selectedOffer={selectedOffer}
               />
             </div>
