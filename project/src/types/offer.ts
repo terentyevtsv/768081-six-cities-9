@@ -1,3 +1,5 @@
+import { SortType } from '../const';
+
 export type Location = {
   latitude: number,
   longitude: number,
@@ -49,5 +51,6 @@ export enum PlaceCardType {
 
 export type CityOffers = {
   city: string,
-  offers: Offer[]
+  offers: Offer[],
+  sortType: SortType
 }
