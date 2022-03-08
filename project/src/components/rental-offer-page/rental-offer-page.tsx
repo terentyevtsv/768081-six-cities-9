@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom';
-import { offers } from '../../mocks/offers';
 import { Review } from '../../types/review';
 import SubmitCommentForm from '../submit-comment-form/submit-comment-form';
 import { getRatingPercent } from '../../const';
@@ -8,6 +7,7 @@ import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 import './css/map.css';
+import { useAppSelector } from '../../hooks/hooks';
 
 type RentalOfferPageProps = {
   reviews: Review[]
@@ -15,6 +15,8 @@ type RentalOfferPageProps = {
 
 function RentalOfferPage({reviews}: RentalOfferPageProps) {
   const location = useLocation();
+  const offers = useAppSelector((state) => state.allOffers);
+
   const pathElements = location.pathname.split('/');
   const offerId =  parseInt(pathElements[pathElements.length - 1], 10);
   const [offer] = offers.filter((currentOffer) =>
