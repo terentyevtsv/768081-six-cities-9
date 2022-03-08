@@ -46,3 +46,10 @@ export const sortOptions = [
   SortType.TopRatedFirst,
 ];
 
+export enum APIRoute {
+  Offers = '/hotels',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout =  '/logout'
+}
