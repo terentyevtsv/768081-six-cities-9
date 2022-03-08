@@ -1,11 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { SortType } from '../const';
+import { offers } from '../mocks/offers';
 import { CityOffers } from '../types/offer';
 import { changeCityAction, changeSortOptionAction, fillOffersAction } from './action';
 
 const initialState: CityOffers = {
   city: 'Paris',
   offers: [],
+  allOffers: offers,
   sortType: SortType.Popular,
 };
 

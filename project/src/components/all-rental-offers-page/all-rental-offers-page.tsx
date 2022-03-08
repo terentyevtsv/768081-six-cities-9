@@ -9,28 +9,25 @@ import Map from '../map/map';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 import SortOptions from '../sort-options/sort-options';
 
-type AllRentalOffersPageProps = {
-  offers: Offer[]
-};
-
-function AllRentalOffersPage({offers}: AllRentalOffersPageProps) {
+function AllRentalOffersPage() {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
 
   const tempState = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
+  const allOffers = tempState.allOffers;
   const currentOffers = tempState.offers;
   const cityName = tempState.city;
   const { sortType } = tempState;
 
   useEffect(() => {
-    dispatch(fillOffersAction(getOffers(cityName, offers, sortType)));
-  }, [cityName, dispatch, offers, sortType]);
+    dispatch(fillOffersAction(getOffers(cityName, allOffers, sortType)));
+  }, [allOffers, cityName, dispatch, sortType]);
 
   // Временно пока так, потом будет логика пустого списка предложений
   const city = currentOffers.length > 0
     ? currentOffers[0].city
-    : offers[0].city;
+    : allOffers[0].city;
 
   return (
     <div className="page page--gray page--main">

@@ -52,5 +52,6 @@ export enum PlaceCardType {
 export type CityOffers = {
   city: string,
   offers: Offer[],
+  allOffers: Offer[],
   sortType: SortType
 }
