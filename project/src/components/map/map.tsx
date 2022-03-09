@@ -1,4 +1,4 @@
-import { Icon, Marker } from 'leaflet';
+import { Icon, Map as LeafLetMap, Marker } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import { PIN_HEIGHT, PIN_WIDTH, URL_PIN_CURRENT, URL_PIN_DEFAULT } from '../../const';
@@ -37,6 +37,14 @@ const getIcon = (selectedOffer: Offer | null, offer: Offer) => {
   return icon;
 };
 
+const setView = (map: LeafLetMap, city: City): void => {
+  const { latitude, longitude, zoom } = city.location;
+  map.setView({
+    lat: latitude,
+    lng: longitude,
+  }, zoom);
+};
+
 const markers: Marker[] = [];
 
 function Map({
@@ -49,10 +57,12 @@ function Map({
   const map = useMap(mapRef, city);
   useEffect(() => {
     if (map) {
+      setView(map, city);
       offers.forEach((offer) => {
+        const { latitude, longitude } = offer.location;
         const marker = new Marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude,
+          lat: latitude,
+          lng: longitude,
         });
         const icon = getIcon(selectedOffer, offer);
 
@@ -66,7 +76,7 @@ function Map({
       markers.forEach((marker) => marker.remove());
       markers.length = 0;
     };
-  }, [map, offers, selectedOffer]);
+  }, [city, map, offers, selectedOffer]);
 
   return (
     <section

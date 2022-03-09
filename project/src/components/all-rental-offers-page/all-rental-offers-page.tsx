@@ -3,18 +3,39 @@ import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getOffers } from '../../rental';
 import { fillOffersAction } from '../../store/action';
+import { CityContent } from '../../types/offer';
 import Cities from '../cities/cities';
+import Loader from '../loader/loader';
 import MainCityRentalOffers from '../main-city-rental-offers/main-city-rental-offers';
 import NoRentalOffers from '../no-rental-offers/no-rental-offers';
+
+const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityContent) => {
+  if (!areAllOffersLoaded) {
+    return (
+      <Loader/>
+    );
+  }
+
+  return (
+    currentOffers.length > 0
+      ? (
+        <MainCityRentalOffers
+          city={currentOffers[0].city}
+          cityName={cityName}
+          currentOffers={currentOffers}
+        />
+      )
+      : <NoRentalOffers cityName={cityName}/>
+  );
+};
 
 function AllRentalOffersPage() {
   const tempState = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
-  const allOffers = tempState.allOffers;
   const currentOffers = tempState.offers;
   const cityName = tempState.city;
-  const { sortType } = tempState;
+  const { sortType, areAllOffersLoaded, allOffers } = tempState;
 
   useEffect(() => {
     dispatch(fillOffersAction(getOffers(cityName, allOffers, sortType)));
@@ -57,15 +78,11 @@ function AllRentalOffersPage() {
         </div>
         <div className="cities">
           {
-            currentOffers.length > 0
-              ? (
-                <MainCityRentalOffers
-                  city={currentOffers[0].city}
-                  cityName={cityName}
-                  currentOffers={currentOffers}
-                />
-              )
-              : <NoRentalOffers cityName={cityName}/>
+            getCitiesContent({
+              areAllOffersLoaded: areAllOffersLoaded,
+              cityName: cityName,
+              currentOffers: currentOffers,
+            })
           }
         </div>
       </main>

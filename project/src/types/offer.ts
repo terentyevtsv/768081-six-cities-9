@@ -54,7 +54,7 @@ export type CityOffers = {
   offers: Offer[],
   allOffers: Offer[],
   sortType: SortType
-  isDataLoaded: boolean
+  areAllOffersLoaded: boolean
 }
 
 export type Hotel = {
@@ -90,4 +90,10 @@ export type Hotel = {
   rating: number
   title: string
   type: string
+}
+
+export type CityContent = {
+  currentOffers: Offer[],
+  cityName: string,
+  areAllOffersLoaded: boolean
 }
