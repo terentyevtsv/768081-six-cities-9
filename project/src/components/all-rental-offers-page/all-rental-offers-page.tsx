@@ -1,18 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getOffers } from '../../rental';
 import { fillOffersAction } from '../../store/action';
-import { Offer, PlaceCardType } from '../../types/offer';
 import Cities from '../cities/cities';
-import Loader from '../loader/loader';
-import Map from '../map/map';
-import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
-import SortOptions from '../sort-options/sort-options';
+import MainCityRentalOffers from '../main-city-rental-offers/main-city-rental-offers';
+import NoRentalOffers from '../no-rental-offers/no-rental-offers';
 
 function AllRentalOffersPage() {
-  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-
   const tempState = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
@@ -24,17 +19,6 @@ function AllRentalOffersPage() {
   useEffect(() => {
     dispatch(fillOffersAction(getOffers(cityName, allOffers, sortType)));
   }, [allOffers, cityName, dispatch, sortType]);
-
-  if (!tempState.isDataLoaded) {
-    return (
-      <Loader/>
-    );
-  }
-
-  // Временно пока так, потом будет логика пустого списка предложений
-  const city = currentOffers.length > 0
-    ? currentOffers[0].city
-    : allOffers[0].city;
 
   return (
     <div className="page page--gray page--main">
@@ -66,32 +50,23 @@ function AllRentalOffersPage() {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index${currentOffers.length === 0 ? ' page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <Cities cities={cities}/>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {cityName}</b>
-              <SortOptions/>
-              <RentalOfferCards
-                onOfferCardHover={setSelectedOffer}
-                placeCardType={PlaceCardType.CityPlaceCard}
-                offers={currentOffers}
-              />
-            </section>
-            <div className="cities__right-section">
-              <Map
-                className="cities__map map"
-                city={city}
-                offers={currentOffers}
-                selectedOffer={selectedOffer}
-              />
-            </div>
-          </div>
+          {
+            currentOffers.length > 0
+              ? (
+                <MainCityRentalOffers
+                  city={currentOffers[0].city}
+                  cityName={cityName}
+                  currentOffers={currentOffers}
+                />
+              )
+              : <NoRentalOffers cityName={cityName}/>
+          }
         </div>
       </main>
     </div>
