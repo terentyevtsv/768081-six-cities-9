@@ -5,6 +5,7 @@ import { getOffers } from '../../rental';
 import { fillOffersAction } from '../../store/action';
 import { Offer, PlaceCardType } from '../../types/offer';
 import Cities from '../cities/cities';
+import Loader from '../loader/loader';
 import Map from '../map/map';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 import SortOptions from '../sort-options/sort-options';
@@ -23,6 +24,12 @@ function AllRentalOffersPage() {
   useEffect(() => {
     dispatch(fillOffersAction(getOffers(cityName, allOffers, sortType)));
   }, [allOffers, cityName, dispatch, sortType]);
+
+  if (!tempState.isDataLoaded) {
+    return (
+      <Loader/>
+    );
+  }
 
   // Временно пока так, потом будет логика пустого списка предложений
   const city = currentOffers.length > 0

@@ -8,6 +8,7 @@ const initialState: CityOffers = {
   offers: [],
   allOffers: [],
   sortType: SortType.Popular,
+  isDataLoaded: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -25,6 +26,7 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffersAction, (state, action) => {
       state.allOffers = action.payload;
+      state.isDataLoaded = true;
     });
 });
 

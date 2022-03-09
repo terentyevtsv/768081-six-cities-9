@@ -54,6 +54,7 @@ export type CityOffers = {
   offers: Offer[],
   allOffers: Offer[],
   sortType: SortType
+  isDataLoaded: boolean
 }
 
 export type Hotel = {
