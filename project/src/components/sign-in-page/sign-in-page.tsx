@@ -58,7 +58,9 @@ function SignInPage() {
                 type="submit"
                 onClick={(evt: MouseEvent) => {
                   evt.preventDefault();
-                  store.dispatch(setAuthAction({email: email, password: password}) as unknown as AnyAction);
+                  const tempEmail = email.trim();
+                  const tempPassword = password.trim();
+                  store.dispatch(setAuthAction({email: tempEmail, password: tempPassword}) as unknown as AnyAction);
                 }}
               >
                 Sign in

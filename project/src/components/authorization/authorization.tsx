@@ -31,7 +31,10 @@ function Authorization() {
         {
           authorizationStatus !== AuthorizationStatus.Auth &&
           <li className="header__nav-item user">
-            <Link className="header__nav-link header__nav-link--profile" to={AppRoute.SignIn}>
+            <Link
+              className="header__nav-link header__nav-link--profile"
+              to={AppRoute.SignIn}
+            >
               <div className="header__avatar-wrapper user__avatar-wrapper">
               </div>
               <span className="header__login">Sign in</span>
