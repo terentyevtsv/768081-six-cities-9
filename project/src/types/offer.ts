@@ -1,4 +1,4 @@
-import { SortType } from '../const';
+import { AuthorizationStatus, SortType } from '../const';
 
 export type Location = {
   latitude: number,
@@ -54,7 +54,8 @@ export type CityOffers = {
   offers: Offer[],
   allOffers: Offer[],
   sortType: SortType
-  areAllOffersLoaded: boolean
+  areAllOffersLoaded: boolean,
+  authorizationStatus: AuthorizationStatus
 }
 
 export type Hotel = {
