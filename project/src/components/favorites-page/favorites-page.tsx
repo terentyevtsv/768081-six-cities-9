@@ -1,16 +1,16 @@
+import { useAppSelector } from '../../hooks/hooks';
 import { Offer } from '../../types/offer';
 import CityRentalOffers from '../city-rental-offers/city-rental-offers';
-
-type FavoritesPageProps = {
-  offers: Offer[]
-};
 
 type GroupedOffers = {
   [key: string]: Offer[]
 }
 
-function FavoritesPage({offers}: FavoritesPageProps) {
+function FavoritesPage() {
   const groupedOffers: GroupedOffers = {};
+
+  const offers = useAppSelector((state) => state.allOffers);
+
   offers.forEach((offer) => {
     const cityName = offer.city.name;
     if (groupedOffers[cityName] === undefined) {
