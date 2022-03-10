@@ -16,6 +16,7 @@ function Authorization() {
             <li className="header__nav-item user">
               <a className="header__nav-link header__nav-link--profile" href="/">
                 <div className="header__avatar-wrapper user__avatar-wrapper">
+                  <img width="20" height="20" alt="ava" src={authInfo?.avatarUrl}/>
                 </div>
                 <span className="header__user-name user__name">{authInfo?.email}</span>
               </a>

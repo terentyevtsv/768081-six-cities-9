@@ -43,8 +43,8 @@ export const setAuthAction = createAsyncThunk(
   'setAuth',
   async (authData: AuthData) => {
     try {
-      const tmp = await api.post<AuthInfo>(APIRoute.Login, authData);
-      saveAuthInfo(tmp.data);
+      const {data} = await api.post<AuthInfo>(APIRoute.Login, authData);
+      saveAuthInfo(data);
       store.dispatch(
         changeAuthorizationStatusAction(AuthorizationStatus.Auth),
       );

@@ -2,6 +2,7 @@ import { AnyAction } from '@reduxjs/toolkit';
 import { ChangeEvent, useState } from 'react';
 import { setAuthAction } from '../../store/api-actions';
 import { store } from '../../types/state';
+import { MouseEvent } from 'react';
 
 function SignInPage() {
   const [email, setEmail] = useState('');
@@ -55,7 +56,8 @@ function SignInPage() {
               <button
                 className="login__submit form__submit button"
                 type="submit"
-                onClick={() => {
+                onClick={(evt: MouseEvent) => {
+                  evt.preventDefault();
                   store.dispatch(setAuthAction({email: email, password: password}) as unknown as AnyAction);
                 }}
               >
