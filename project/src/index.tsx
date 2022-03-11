@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { fetchOffersAction } from './api-actions';
+import { getAuthAction, fetchOffersAction } from './store/api-actions';
 import App from './components/app/app';
 import { reviews } from './mocks/reviews';
 import { store } from './types/state';
@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AnyAction } from '@reduxjs/toolkit';
 
 store.dispatch(fetchOffersAction() as unknown as AnyAction);
+store.dispatch(getAuthAction() as unknown as AnyAction);
 
 ReactDOM.render(
   <React.StrictMode>
