@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { City, Offer, PlaceCardType } from '../../types/offer';
+import { City, Offer } from '../../types/offer';
 import Map from '../map/map';
-import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
-import SortOptions from '../sort-options/sort-options';
+import SortedRentalOfferCards from '../sorted-rental-offer-cards/sorted-rental-offer-cards';
 
 type MainCityRentalOffersProps = {
   currentOffers: Offer[],
@@ -17,12 +16,7 @@ function MainCityRentalOffers({currentOffers, cityName, city}: MainCityRentalOff
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{currentOffers.length} places to stay in {cityName}</b>
-        <SortOptions/>
-        <RentalOfferCards
-          onOfferCardHover={setSelectedOffer}
-          placeCardType={PlaceCardType.CityPlaceCard}
-          offers={currentOffers}
-        />
+        <SortedRentalOfferCards onOfferCardHover={setSelectedOffer}/>
       </section>
       <div className="cities__right-section">
         <Map
