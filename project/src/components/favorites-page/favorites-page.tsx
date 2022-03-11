@@ -9,7 +9,7 @@ type GroupedOffers = {
 function FavoritesPage() {
   const groupedOffers: GroupedOffers = {};
 
-  const offers = useAppSelector((state) => state.allOffers);
+  const offers = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA.allOffers);
 
   offers.forEach((offer) => {
     const cityName = offer.city.name;

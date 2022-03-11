@@ -59,3 +59,9 @@ export enum HTTP_CODE {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
+
+export enum NameSpace {
+  OffersData = 'OFFERS_DATA', // загрузочные данные по предложениям из сервера
+  User = 'USER',              // статус логина пользователя
+  Rental = 'RENTAL'           // объекты внутренней логики работы с арендой
+}

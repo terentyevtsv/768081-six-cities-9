@@ -15,7 +15,7 @@ type RentalOfferPageProps = {
 
 function RentalOfferPage({reviews}: RentalOfferPageProps) {
   const location = useLocation();
-  const offers = useAppSelector((state) => state.allOffers);
+  const offers = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA.allOffers);
 
   const pathElements = location.pathname.split('/');
   const offerId =  parseInt(pathElements[pathElements.length - 1], 10);

@@ -9,7 +9,7 @@ type SortedRentalOfferCardsProps = {
 }
 
 function SortedRentalOfferCards({onOfferCardHover}: SortedRentalOfferCardsProps) {
-  const { offers, sortType } = useAppSelector((state) => state);
+  const { offers, sortType } = useAppSelector(({RENTAL}) => RENTAL);
   const sortedOffers = getOffers(offers, sortType);
   return (
     <>
