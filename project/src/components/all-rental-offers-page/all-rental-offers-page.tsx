@@ -30,8 +30,8 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 };
 
 function AllRentalOffersPage() {
-  const tempState = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+  const tempState = useAppSelector((state) => state);
 
   const currentOffers = tempState.RENTAL.offers;
   const cityName = tempState.RENTAL.city;

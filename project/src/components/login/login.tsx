@@ -1,6 +1,7 @@
-import { AnyAction } from '@reduxjs/toolkit';
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { setAuthAction } from '../../store/api-actions';
+import { AppRoute } from '../../const';
+import { redirectToRouteAction } from '../../store/action';
+import { fetchOffersAction, setAuthAction } from '../../store/api-actions';
 import { store } from '../../types/state';
 
 function Login() {
@@ -44,7 +45,17 @@ function Login() {
             evt.preventDefault();
             const tempEmail = email.trim();
             const tempPassword = password.trim();
-            store.dispatch(setAuthAction({email: tempEmail, password: tempPassword}) as unknown as AnyAction);
+            store.dispatch(
+              setAuthAction({
+                email: tempEmail,
+                password: tempPassword,
+              }));
+            store.dispatch(
+              fetchOffersAction(),
+            );
+            store.dispatch(
+              redirectToRouteAction(AppRoute.Main),
+            );
           }}
         >
           Sign in

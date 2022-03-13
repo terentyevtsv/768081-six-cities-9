@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useAppSelector } from '../../hooks/hooks';
+import { getFavoriteOffersAction } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
+import { store } from '../../types/state';
 import CityRentalOffers from '../city-rental-offers/city-rental-offers';
 
 type GroupedOffers = {
@@ -7,9 +10,13 @@ type GroupedOffers = {
 }
 
 function FavoritesPage() {
+  useEffect(() => {
+    store.dispatch(getFavoriteOffersAction());
+  }, []);
+
   const groupedOffers: GroupedOffers = {};
 
-  const offers = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA.allOffers);
+  const offers = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA.favoriteOffers);
 
   offers.forEach((offer) => {
     const cityName = offer.city.name;

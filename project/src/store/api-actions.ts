@@ -7,7 +7,7 @@ import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
-import { loadOffers } from './offers-data/offers-data';
+import { loadFavoriteOffers, loadOffers } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { redirectToRouteAction } from './action';
 import { Favorite } from '../types/favorite';
@@ -51,9 +51,6 @@ export const setAuthAction = createAsyncThunk(
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.Auth),
       );
-      store.dispatch(
-        redirectToRouteAction(AppRoute.Main),
-      );
     } catch (error) {
       errorHandle(error);
       store.dispatch(
@@ -79,6 +76,20 @@ export const setIsFavoriteAction = createAsyncThunk(
         errorHandle(error);
         throw error;
       }
+    }
+  },
+);
+
+export const getFavoriteOffersAction = createAsyncThunk(
+  'getFavoriteOffers',
+  async () => {
+    try {
+      const {data} = await api.get<Hotel[]>(APIRoute.Favorite);
+      const offers = data.map((hotel) => getOffer(hotel));
+
+      store.dispatch(loadFavoriteOffers(offers));
+    } catch (error) {
+      errorHandle(error);
     }
   },
 );

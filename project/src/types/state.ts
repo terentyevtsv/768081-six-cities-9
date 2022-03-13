@@ -32,6 +32,7 @@ export type Rental = {
 
 export type OffersData = {
   allOffers: Offer[],
+  favoriteOffers: Offer[],
   areAllOffersLoaded: boolean
 };
 
