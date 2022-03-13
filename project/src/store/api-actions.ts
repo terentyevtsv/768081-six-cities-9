@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus, HTTP_CODE } from '../const';
 import { getOffer } from '../services/adaptor';
-import { errorHandle } from '../services/error-handle';
+import { errorHandle, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
 import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
@@ -10,6 +10,7 @@ import { saveAuthInfo } from '../services/token';
 import { loadOffers } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { redirectToRouteAction } from './action';
+import { Favorite } from '../types/favorite';
 
 export const fetchOffersAction = createAsyncThunk(
   'fetchOffers',
@@ -58,6 +59,26 @@ export const setAuthAction = createAsyncThunk(
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
+    }
+  },
+);
+
+export const setIsFavoriteAction = createAsyncThunk(
+  'setIsFavorite',
+  async ({offerId, isFavorite}: Favorite) => {
+    try {
+      await api.post<Hotel>(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`);
+    } catch (error) {
+      const status = getStatusCode(error);
+      if (status === HTTP_CODE.UNAUTHORIZED) {
+        store.dispatch(
+          redirectToRouteAction(AppRoute.SignIn),
+        );
+      }
+      else {
+        errorHandle(error);
+        throw error;
+      }
     }
   },
 );
