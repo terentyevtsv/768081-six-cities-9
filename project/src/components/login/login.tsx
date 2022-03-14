@@ -1,7 +1,5 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { AppRoute } from '../../const';
-import { redirectToRouteAction } from '../../store/action';
-import { fetchOffersAction, setAuthAction } from '../../store/api-actions';
+import { setAuthAction } from '../../store/api-actions';
 import { store } from '../../types/state';
 
 function Login() {
@@ -50,12 +48,6 @@ function Login() {
                 email: tempEmail,
                 password: tempPassword,
               }));
-            store.dispatch(
-              fetchOffersAction(),
-            );
-            store.dispatch(
-              redirectToRouteAction(AppRoute.Main),
-            );
           }}
         >
           Sign in
