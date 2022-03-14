@@ -1,16 +1,37 @@
-import { createStore } from 'redux';
-import { reducer } from '../store/reducer';
-import thunk from 'redux-thunk';
-import {applyMiddleware} from 'redux';
 import {createAPI} from '../services/api';
 import { redirect } from '../store/middlewares/redirect';
+import { AuthorizationStatus, SortType } from '../const';
+import { Offer } from './offer';
+import { rootReducer } from '../store/root-reducer';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const api = createAPI();
 
-export const store = createStore(
-  reducer,
-  applyMiddleware(thunk, redirect),
-);
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export type UserProcess = {
+  authorizationStatus: AuthorizationStatus
+};
+
+export type Rental = {
+  city: string,
+  offers: Offer[],
+  sortType: SortType
+};
+
+export type OffersData = {
+  allOffers: Offer[],
+  areAllOffersLoaded: boolean
+};
+

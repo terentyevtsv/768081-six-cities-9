@@ -5,7 +5,7 @@ import { AppRoute } from '../../const';
 import { getAuthInfo } from '../../services/token';
 
 function Authorization() {
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const { authorizationStatus } = useAppSelector(({USER}) => USER);
   const authInfo = getAuthInfo();
   return (
     <nav className="header__nav">

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { sortOptions } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { changeSortOptionAction } from '../../store/action';
+import { changeSortOption } from '../../store/rental/rental';
 
 function SortOptions() {
-  const sortType = useAppSelector((state) => state.sortType);
+  const { sortType } = useAppSelector(({RENTAL}) => RENTAL);
   const [sort, setSort] = useState(sortType);
 
   const [isActive, setIsActive] = useState(false);
@@ -41,7 +41,7 @@ function SortOptions() {
                 () => {
                   setSort(sortOption);
                   setIsActive(!isActive);
-                  dispatch(changeSortOptionAction(sortOption));
+                  dispatch(changeSortOption(sortOption));
                 }
               }
             >

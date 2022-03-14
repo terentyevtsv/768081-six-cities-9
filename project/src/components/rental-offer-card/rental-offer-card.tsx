@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { getRatingPercent } from '../../const';
 import { Offer, PlaceCardType } from '../../types/offer';
@@ -70,4 +71,8 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
   );
 }
 
-export default RentalOfferCard;
+export default memo(RentalOfferCard, (prevProps, nextProps) => {
+  const isTheSame = prevProps.offer.id === nextProps.offer.id &&
+                    prevProps.placeCardType === nextProps.placeCardType;
+  return isTheSame;
+});

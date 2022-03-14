@@ -38,16 +38,14 @@ const sortByHighRating = (offerA: Offer, offerB: Offer) => {
 };
 
 export const getOffers = (
-  cityName: string,
-  allOffers: Offer[],
+  offers: Offer[],
   sortType: SortType,
 ) => {
-  const cityOffers = allOffers
-    .filter((offer) => offer.city.name === cityName);
-
   if (sortType === SortType.Popular) {
-    return cityOffers;
+    return offers;
   }
+
+  const cityOffers = offers.slice(0);
 
   switch (sortType) {
     case SortType.HighPriceFirst:

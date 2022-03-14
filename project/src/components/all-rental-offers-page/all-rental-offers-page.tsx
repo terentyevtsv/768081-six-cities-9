@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getOffers } from '../../rental';
-import { fillOffersAction } from '../../store/action';
+import { fillOffers } from '../../store/rental/rental';
 import { CityContent } from '../../types/offer';
 import Authorization from '../authorization/authorization';
 import Cities from '../cities/cities';
@@ -34,13 +33,15 @@ function AllRentalOffersPage() {
   const tempState = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
-  const currentOffers = tempState.offers;
-  const cityName = tempState.city;
-  const { sortType, areAllOffersLoaded, allOffers } = tempState;
+  const currentOffers = tempState.RENTAL.offers;
+  const cityName = tempState.RENTAL.city;
+  const { areAllOffersLoaded, allOffers } = tempState.OFFERS_DATA;
 
   useEffect(() => {
-    dispatch(fillOffersAction(getOffers(cityName, allOffers, sortType)));
-  }, [allOffers, cityName, dispatch, sortType]);
+    const cityOffers = allOffers
+      .filter((offer) => offer.city.name === cityName);
+    dispatch(fillOffers(cityOffers));
+  }, [allOffers, cityName, dispatch]);
 
   return (
     <div className="page page--gray page--main">

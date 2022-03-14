@@ -1,5 +1,3 @@
-import { AuthorizationStatus, SortType } from '../const';
-
 export type Location = {
   latitude: number,
   longitude: number,
@@ -50,12 +48,8 @@ export enum PlaceCardType {
 }
 
 export type CityOffers = {
-  city: string,
-  offers: Offer[],
   allOffers: Offer[],
-  sortType: SortType
-  areAllOffersLoaded: boolean,
-  authorizationStatus: AuthorizationStatus
+  areAllOffersLoaded: boolean
 }
 
 export type Hotel = {

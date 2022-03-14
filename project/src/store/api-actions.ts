@@ -2,12 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { getOffer } from '../services/adaptor';
 import { errorHandle } from '../services/error-handle';
-import { changeAuthorizationStatusAction, loadOffersAction, redirectToRouteAction } from './action';
 import { Hotel } from '../types/offer';
 import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
+import { loadOffers } from './offers-data/offers-data';
+import { changeAuthorizationStatus } from './user-process/user-process';
+import { redirectToRouteAction } from './action';
 
 export const fetchOffersAction = createAsyncThunk(
   'fetchOffers',
@@ -15,7 +17,7 @@ export const fetchOffersAction = createAsyncThunk(
     try {
       const {data} = await api.get<Hotel[]>(APIRoute.Offers);
       const offers = data.map((hotel) => getOffer(hotel));
-      store.dispatch(loadOffersAction(offers));
+      store.dispatch(loadOffers(offers));
     } catch (error) {
       errorHandle(error);
     }
@@ -28,12 +30,12 @@ export const getAuthAction = createAsyncThunk(
     try {
       await api.get(APIRoute.Login);
       store.dispatch(
-        changeAuthorizationStatusAction(AuthorizationStatus.Auth),
+        changeAuthorizationStatus(AuthorizationStatus.Auth),
       );
     } catch (error) {
       errorHandle(error);
       store.dispatch(
-        changeAuthorizationStatusAction(AuthorizationStatus.NoAuth),
+        changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
     }
   },
@@ -46,7 +48,7 @@ export const setAuthAction = createAsyncThunk(
       const {data} = await api.post<AuthInfo>(APIRoute.Login, authData);
       saveAuthInfo(data);
       store.dispatch(
-        changeAuthorizationStatusAction(AuthorizationStatus.Auth),
+        changeAuthorizationStatus(AuthorizationStatus.Auth),
       );
       store.dispatch(
         redirectToRouteAction(AppRoute.Main),
@@ -54,7 +56,7 @@ export const setAuthAction = createAsyncThunk(
     } catch (error) {
       errorHandle(error);
       store.dispatch(
-        changeAuthorizationStatusAction(AuthorizationStatus.NoAuth),
+        changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
     }
   },
