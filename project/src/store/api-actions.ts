@@ -52,6 +52,8 @@ export const setAuthAction = createAsyncThunk(
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.Auth),
       );
+
+      store.dispatch(fetchOffersAction());
     } catch (error) {
       errorHandle(error);
       store.dispatch(

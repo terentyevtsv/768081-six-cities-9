@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { fetchOffersAction } from '../../store/api-actions';
 import { fillOffers } from '../../store/rental/rental';
 import { CityContent } from '../../types/offer';
 import Authorization from '../authorization/authorization';
@@ -38,8 +37,6 @@ function AllRentalOffersPage() {
   const { areAllOffersLoaded, allOffers } = tempState.OFFERS_DATA;
 
   useEffect(() => {
-    dispatch(fetchOffersAction());
-
     const cityOffers = allOffers
       .filter((offer) => offer.city.name === city);
     dispatch(fillOffers(cityOffers));

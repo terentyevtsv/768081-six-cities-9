@@ -66,7 +66,7 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button${isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
+            className={`place-card__bookmark-button${isFavorite || offer.isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
             type="button"
             onClick={handleAddToFavorites}
           >
@@ -93,6 +93,7 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
 
 export default memo(RentalOfferCard, (prevProps, nextProps) => {
   const isTheSame = prevProps.offer.id === nextProps.offer.id &&
-                    prevProps.placeCardType === nextProps.placeCardType;
+                    prevProps.placeCardType === nextProps.placeCardType &&
+                    prevProps.offer.isFavorite === nextProps.offer.isFavorite;
   return isTheSame;
 });
