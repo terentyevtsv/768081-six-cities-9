@@ -46,19 +46,11 @@ export const setAuthAction = createAsyncThunk(
   'setAuth',
   async (authData: AuthData) => {
     try {
-      const authInfoQuery = await api.post<AuthInfo>(APIRoute.Login, authData);
-      saveAuthInfo(authInfoQuery.data);
-
-      const hotelsQuery = await api.get<Hotel[]>(APIRoute.Offers);
-      const offers = hotelsQuery.data.map((hotel) => getOffer(hotel));
+      const { data } = await api.post<AuthInfo>(APIRoute.Login, authData);
+      saveAuthInfo(data);
 
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.Auth),
-      );
-
-      store.dispatch(loadOffers(offers));
-      store.dispatch(
-        redirectToRouteAction(AppRoute.Main),
       );
     } catch (error) {
       errorHandle(error);

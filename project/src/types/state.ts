@@ -1,5 +1,4 @@
 import {createAPI} from '../services/api';
-import { redirect } from '../store/middlewares/redirect';
 import { AuthorizationStatus, SortType } from '../const';
 import { Offer } from './offer';
 import { rootReducer } from '../store/root-reducer';
@@ -14,7 +13,7 @@ export const store = configureStore({
       thunk: {
         extraArgument: api,
       },
-    }).concat(redirect),
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

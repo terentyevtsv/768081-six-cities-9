@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { fetchOffersAction } from '../../store/api-actions';
 import { fillOffers } from '../../store/rental/rental';
 import { CityContent } from '../../types/offer';
 import Authorization from '../authorization/authorization';
@@ -31,17 +32,18 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 
 function AllRentalOffersPage() {
   const dispatch = useAppDispatch();
-  const tempState = useAppSelector((state) => state);
 
-  const currentOffers = tempState.RENTAL.offers;
-  const cityName = tempState.RENTAL.city;
+  const tempState = useAppSelector((state) => state);
+  const { offers, city } = tempState.RENTAL;
   const { areAllOffersLoaded, allOffers } = tempState.OFFERS_DATA;
 
   useEffect(() => {
+    dispatch(fetchOffersAction());
+
     const cityOffers = allOffers
-      .filter((offer) => offer.city.name === cityName);
+      .filter((offer) => offer.city.name === city);
     dispatch(fillOffers(cityOffers));
-  }, [allOffers, cityName, dispatch]);
+  }, [allOffers, city, dispatch]);
 
   return (
     <div className="page page--gray page--main">
@@ -58,7 +60,7 @@ function AllRentalOffersPage() {
         </div>
       </header>
 
-      <main className={`page__main page__main--index${currentOffers.length === 0 ? ' page__main--index-empty' : ''}`}>
+      <main className={`page__main page__main--index${offers.length === 0 ? ' page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <Cities cities={cities}/>
@@ -66,9 +68,9 @@ function AllRentalOffersPage() {
         <div className="cities">
           {
             getCitiesContent({
-              areAllOffersLoaded: areAllOffersLoaded,
-              cityName: cityName,
-              currentOffers: currentOffers,
+              areAllOffersLoaded,
+              cityName: city,
+              currentOffers: offers,
             })
           }
         </div>

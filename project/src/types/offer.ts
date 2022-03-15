@@ -47,11 +47,6 @@ export enum PlaceCardType {
   NearPlaceCard = 1
 }
 
-export type CityOffers = {
-  allOffers: Offer[],
-  areAllOffersLoaded: boolean
-}
-
 export type Hotel = {
   bedrooms: number
   city: {
