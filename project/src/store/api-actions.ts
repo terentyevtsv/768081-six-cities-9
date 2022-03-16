@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, AppRoute, AuthorizationStatus, HTTP_CODE } from '../const';
+import { APIRoute, AuthorizationStatus, HTTP_CODE } from '../const';
 import { getOffer } from '../services/adaptor';
 import { errorHandle, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
@@ -9,7 +9,6 @@ import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
 import { loadFavoriteOffers, loadOffers } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
-import { redirectToRouteAction } from './action';
 import { Favorite } from '../types/favorite';
 
 export const fetchOffersAction = createAsyncThunk(
@@ -72,13 +71,12 @@ export const setIsFavoriteAction = createAsyncThunk(
       const status = getStatusCode(error);
       if (status === HTTP_CODE.UNAUTHORIZED) {
         store.dispatch(
-          redirectToRouteAction(AppRoute.SignIn),
+          changeAuthorizationStatus(AuthorizationStatus.NoAuth),
         );
+        return;
       }
-      else {
-        errorHandle(error);
-        throw error;
-      }
+
+      throw error;
     }
   },
 );

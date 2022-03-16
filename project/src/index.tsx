@@ -8,8 +8,8 @@ import { store } from './types/state';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-store.dispatch(fetchOffersAction());
 store.dispatch(getAuthAction());
+store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

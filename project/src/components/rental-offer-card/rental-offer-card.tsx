@@ -1,7 +1,8 @@
-import { memo, MouseEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AuthorizationStatus, getRatingPercent } from '../../const';
+import { memo, MouseEvent, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { errorHandle } from '../../services/error-handle';
 import { setIsFavoriteAction } from '../../store/api-actions';
 import { Offer, PlaceCardType } from '../../types/offer';
 
@@ -15,6 +16,11 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
   const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
   const dispatch = useAppDispatch();
   const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsFavorite(offer.isFavorite);
+  }, [offer.isFavorite]);
 
   const handleMouseOver = () => {
     if (onMouseOver !== undefined) {
@@ -25,13 +31,20 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
   const handleAddToFavorites = (evt: MouseEvent): void => {
     evt.preventDefault();
 
-    dispatch(setIsFavoriteAction({
-      offerId: offer.id,
-      isFavorite: !isFavorite,
-    }));
+    try {
+      dispatch(setIsFavoriteAction({
+        offerId: offer.id,
+        isFavorite: !isFavorite,
+      }));
 
-    if (authorizationStatus === AuthorizationStatus.Auth) {
+      if (authorizationStatus === AuthorizationStatus.NoAuth) {
+        navigate(AppRoute.SignIn);
+        return;
+      }
+
       setIsFavorite(!isFavorite);
+    } catch (error) {
+      errorHandle(error);
     }
   };
 
@@ -66,7 +79,7 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button${isFavorite || offer.isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
+            className={`place-card__bookmark-button${isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
             type="button"
             onClick={handleAddToFavorites}
           >
