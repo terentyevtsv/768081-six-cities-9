@@ -76,7 +76,7 @@ export const setIsFavoriteAction = createAsyncThunk(
         return;
       }
 
-      throw error;
+      errorHandle(error);
     }
   },
 );
@@ -91,6 +91,9 @@ export const getFavoriteOffersAction = createAsyncThunk(
       store.dispatch(loadFavoriteOffers(offers));
     } catch (error) {
       errorHandle(error);
+      store.dispatch(
+        changeAuthorizationStatus(AuthorizationStatus.NoAuth),
+      );
     }
   },
 );

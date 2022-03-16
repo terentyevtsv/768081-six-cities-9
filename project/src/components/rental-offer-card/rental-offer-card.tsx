@@ -2,7 +2,6 @@ import { memo, MouseEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { errorHandle } from '../../services/error-handle';
 import { setIsFavoriteAction } from '../../store/api-actions';
 import { Offer, PlaceCardType } from '../../types/offer';
 
@@ -31,21 +30,17 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
   const handleAddToFavorites = (evt: MouseEvent): void => {
     evt.preventDefault();
 
-    try {
-      dispatch(setIsFavoriteAction({
-        offerId: offer.id,
-        isFavorite: !isFavorite,
-      }));
+    dispatch(setIsFavoriteAction({
+      offerId: offer.id,
+      isFavorite: !isFavorite,
+    }));
 
-      if (authorizationStatus === AuthorizationStatus.NoAuth) {
-        navigate(AppRoute.SignIn);
-        return;
-      }
-
-      setIsFavorite(!isFavorite);
-    } catch (error) {
-      errorHandle(error);
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
+      navigate(AppRoute.SignIn);
+      return;
     }
+
+    setIsFavorite(!isFavorite);
   };
 
   return (
