@@ -33,6 +33,7 @@ export type OffersData = {
   allOffers: Offer[],
   favoriteOffers: Offer[],
   currentOffer: Offer | null,
+  nearOffers: Offer[],
   areAllOffersLoaded: boolean
 };
 

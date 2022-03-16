@@ -7,7 +7,7 @@ import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
-import { loadFavoriteOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
+import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
 
@@ -105,6 +105,19 @@ export const getOfferAction = createAsyncThunk(
       const {data} = await api.get<Hotel>(`${APIRoute.Offers}/${offerId}`);
       const offer = getOffer(data);
       store.dispatch(setCurrentOffer(offer));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const getNearOffersAction = createAsyncThunk(
+  'getNearOffers',
+  async (offerId: number) => {
+    try {
+      const {data} = await api.get<Hotel[]>(`${APIRoute.Offers}/${offerId}/nearby`);
+      const offers = data.map((offer) => getOffer(offer));
+      store.dispatch(loadNearOffers(offers));
     } catch (error) {
       errorHandle(error);
     }

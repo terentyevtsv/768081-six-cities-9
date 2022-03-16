@@ -6,6 +6,7 @@ const initialState: OffersData = {
   allOffers: [],
   favoriteOffers: [],
   currentOffer: null,
+  nearOffers: [],
   areAllOffersLoaded: false,
 };
 
@@ -23,6 +24,9 @@ export const offersData = createSlice({
     setCurrentOffer: (state, action) => {
       state.currentOffer = action.payload;
     },
+    loadNearOffers: (state, action) => {
+      state.nearOffers = action.payload;
+    },
   },
 });
 
@@ -30,4 +34,5 @@ export const {
   loadOffers,
   loadFavoriteOffers,
   setCurrentOffer,
+  loadNearOffers,
 } = offersData.actions;

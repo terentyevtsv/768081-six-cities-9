@@ -10,7 +10,7 @@ import './css/map.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Authorization from '../authorization/authorization';
 import { MouseEvent, useEffect, useState } from 'react';
-import { getOfferAction, setIsFavoriteAction } from '../../store/api-actions';
+import { getNearOffersAction, getOfferAction, setIsFavoriteAction } from '../../store/api-actions';
 
 type RentalOfferPageProps = {
   reviews: Review[]
@@ -24,7 +24,7 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
 
   const dispatch = useAppDispatch();
 
-  const { allOffers, currentOffer } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
+  const { currentOffer, nearOffers } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
   const { authorizationStatus } = useAppSelector(({USER}) => USER);
 
   const navigate = useNavigate();
@@ -32,6 +32,8 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
 
   useEffect(() => {
     dispatch(getOfferAction(offerId));
+    dispatch(getNearOffersAction(offerId));
+
     setIsFavorite(currentOffer?.isFavorite);
   }, [currentOffer?.isFavorite, dispatch, offerId]);
 
@@ -54,8 +56,6 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
 
     setIsFavorite(!isFavorite);
   };
-
-  const nearOffers = allOffers.slice(0, 3);
 
   return (
     <div className="page">
@@ -190,8 +190,8 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
             <Map
               className="property__map map"
               city={currentOffer.city}
-              offers={nearOffers}
-              selectedOffer={null}
+              offers={[currentOffer, ...nearOffers]}
+              selectedOffer={currentOffer}
             />
           </div>
         </section>
