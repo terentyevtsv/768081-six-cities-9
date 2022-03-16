@@ -7,7 +7,7 @@ import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
-import { loadFavoriteOffers, loadOffers } from './offers-data/offers-data';
+import { loadFavoriteOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
 
@@ -94,6 +94,19 @@ export const getFavoriteOffersAction = createAsyncThunk(
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
+    }
+  },
+);
+
+export const getOfferAction = createAsyncThunk(
+  'getOffer',
+  async (offerId: number) => {
+    try {
+      const {data} = await api.get<Hotel>(`${APIRoute.Offers}/${offerId}`);
+      const offer = getOffer(data);
+      store.dispatch(setCurrentOffer(offer));
+    } catch (error) {
+      errorHandle(error);
     }
   },
 );
