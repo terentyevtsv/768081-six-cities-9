@@ -1,13 +1,19 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { getRatingPercent } from '../../const';
 import { Offer } from '../../types/offer';
 
 type CityRentalOffersProps = {
   cityName: string,
-  offers: Offer[]
+  offers: Offer[],
+  onRemoveFavoriteOffer(offer: Offer): void
 };
 
-function CityRentalOffers({cityName, offers}: CityRentalOffersProps) {
+function CityRentalOffers({
+  cityName,
+  offers,
+  onRemoveFavoriteOffer,
+}: CityRentalOffersProps) {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -51,6 +57,10 @@ function CityRentalOffers({cityName, offers}: CityRentalOffersProps) {
                     <button
                       className={`place-card__bookmark-button${offer.isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
                       type="button"
+                      onClick={(evt: MouseEvent) => {
+                        evt.preventDefault();
+                        onRemoveFavoriteOffer(offer);
+                      }}
                     >
                       <svg className="place-card__bookmark-icon" width="18" height="19">
                         <use xlinkHref="#icon-bookmark"></use>

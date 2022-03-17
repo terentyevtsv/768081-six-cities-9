@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { useAppSelector } from '../../hooks/hooks';
-import { getFavoriteOffersAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { getFavoriteOffersAction, setIsFavoriteAction } from '../../store/api-actions';
 import { Offer } from '../../types/offer';
-import { store } from '../../types/state';
 import Authorization from '../authorization/authorization';
 import CityRentalOffers from '../city-rental-offers/city-rental-offers';
 
@@ -11,15 +10,16 @@ type GroupedOffers = {
 }
 
 function FavoritesPage() {
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    store.dispatch(getFavoriteOffersAction());
-  }, []);
+    dispatch(getFavoriteOffersAction());
+  }, [dispatch]);
 
   const groupedOffers: GroupedOffers = {};
 
-  const offers = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA.favoriteOffers);
+  const { favoriteOffers } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
 
-  offers.forEach((offer) => {
+  favoriteOffers.forEach((offer) => {
     const cityName = offer.city.name;
     if (groupedOffers[cityName] === undefined) {
       groupedOffers[cityName] = [];
@@ -28,7 +28,15 @@ function FavoritesPage() {
     groupedOffers[cityName].push(offer);
   });
 
-  const keys =  Object.keys(groupedOffers);
+  const keys = Object.keys(groupedOffers);
+
+  const handleRemoveFavoriteOffer = async (offer: Offer) => {
+    await dispatch(setIsFavoriteAction({
+      offerId: offer.id,
+      isFavorite: false,
+    }));
+    await dispatch(getFavoriteOffersAction());
+  };
 
   return (
     <div className={`page${keys.length > 0 ? '' : ' page--favorites-empty'}`}>
@@ -62,6 +70,7 @@ function FavoritesPage() {
                           cityName={cityName}
                           offers={groupedOffers[cityName]}
                           key={cityName}
+                          onRemoveFavoriteOffer={handleRemoveFavoriteOffer}
                         />
                       ))
                   }
