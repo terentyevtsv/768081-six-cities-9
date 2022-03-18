@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import SubmitCommentForm from '../submit-comment-form/submit-comment-form';
+import SubmitReviewForm from '../submit-review-form/submit-review-form';
 import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
@@ -177,7 +177,10 @@ function RentalOfferPage() {
               </div>
               <section className="property__reviews reviews">
                 <Reviews offerId={offerId}/>
-                <SubmitCommentForm/>
+                {
+                  (authorizationStatus === AuthorizationStatus.Auth) &&
+                  <SubmitReviewForm/>
+                }
               </section>
             </div>
           </div>

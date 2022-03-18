@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 
-function SubmitCommentForm() {
+function SubmitReviewForm() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
 
@@ -111,4 +111,4 @@ function SubmitCommentForm() {
   );
 }
 
-export default SubmitCommentForm;
+export default SubmitReviewForm;
