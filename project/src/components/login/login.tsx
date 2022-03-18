@@ -1,11 +1,14 @@
-import { AnyAction } from '@reduxjs/toolkit';
 import { ChangeEvent, MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks/hooks';
 import { setAuthAction } from '../../store/api-actions';
-import { store } from '../../types/state';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <section className="login">
@@ -44,7 +47,13 @@ function Login() {
             evt.preventDefault();
             const tempEmail = email.trim();
             const tempPassword = password.trim();
-            store.dispatch(setAuthAction({email: tempEmail, password: tempPassword}) as unknown as AnyAction);
+            dispatch(
+              setAuthAction({
+                email: tempEmail,
+                password: tempPassword,
+              }));
+
+            navigate(AppRoute.Main);
           }}
         >
           Sign in

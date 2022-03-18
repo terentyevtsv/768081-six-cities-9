@@ -4,6 +4,9 @@ import { OffersData } from '../../types/state';
 
 const initialState: OffersData = {
   allOffers: [],
+  favoriteOffers: [],
+  currentOffer: null,
+  nearOffers: [],
   areAllOffersLoaded: false,
 };
 
@@ -15,7 +18,21 @@ export const offersData = createSlice({
       state.allOffers = action.payload;
       state.areAllOffersLoaded = true;
     },
+    loadFavoriteOffers: (state, action) => {
+      state.favoriteOffers = action.payload;
+    },
+    setCurrentOffer: (state, action) => {
+      state.currentOffer = action.payload;
+    },
+    loadNearOffers: (state, action) => {
+      state.nearOffers = action.payload;
+    },
   },
 });
 
-export const { loadOffers } = offersData.actions;
+export const {
+  loadOffers,
+  loadFavoriteOffers,
+  setCurrentOffer,
+  loadNearOffers,
+} = offersData.actions;

@@ -31,3 +31,16 @@ export const errorHandle = (error: ErrorType): void => {
 
   toast.info(error.message);
 };
+
+export const getStatusCode = (error: ErrorType): number => {
+  if (!request.isAxiosError(error)) {
+    throw error;
+  }
+
+  const {response} = error;
+  if (response) {
+    return response.status;
+  }
+
+  return -1;
+};

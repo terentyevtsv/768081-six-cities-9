@@ -1,15 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AuthorizationStatus, HTTP_CODE } from '../const';
 import { getOffer } from '../services/adaptor';
-import { errorHandle } from '../services/error-handle';
+import { errorHandle, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
 import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
-import { loadOffers } from './offers-data/offers-data';
+import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
-import { redirectToRouteAction } from './action';
+import { Favorite } from '../types/favorite';
 
 export const fetchOffersAction = createAsyncThunk(
   'fetchOffers',
@@ -45,19 +45,81 @@ export const setAuthAction = createAsyncThunk(
   'setAuth',
   async (authData: AuthData) => {
     try {
-      const {data} = await api.post<AuthInfo>(APIRoute.Login, authData);
+      const { data } = await api.post<AuthInfo>(APIRoute.Login, authData);
       saveAuthInfo(data);
+
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.Auth),
       );
-      store.dispatch(
-        redirectToRouteAction(AppRoute.Main),
-      );
+
+      store.dispatch(fetchOffersAction());
     } catch (error) {
       errorHandle(error);
       store.dispatch(
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
+    }
+  },
+);
+
+export const setIsFavoriteAction = createAsyncThunk(
+  'setIsFavorite',
+  async ({offerId, isFavorite}: Favorite) => {
+    try {
+      await api.post<Hotel>(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`);
+    } catch (error) {
+      const status = getStatusCode(error);
+      if (status === HTTP_CODE.UNAUTHORIZED) {
+        store.dispatch(
+          changeAuthorizationStatus(AuthorizationStatus.NoAuth),
+        );
+        return;
+      }
+
+      errorHandle(error);
+    }
+  },
+);
+
+export const getFavoriteOffersAction = createAsyncThunk(
+  'getFavoriteOffers',
+  async () => {
+    try {
+      const {data} = await api.get<Hotel[]>(APIRoute.Favorite);
+      const offers = data.map((hotel) => getOffer(hotel));
+
+      store.dispatch(loadFavoriteOffers(offers));
+    } catch (error) {
+      errorHandle(error);
+      store.dispatch(
+        changeAuthorizationStatus(AuthorizationStatus.NoAuth),
+      );
+    }
+  },
+);
+
+export const getOfferAction = createAsyncThunk(
+  'getOffer',
+  async (offerId: number) => {
+    try {
+      const {data} = await api.get<Hotel>(`${APIRoute.Offers}/${offerId}`);
+      const offer = getOffer(data);
+      store.dispatch(setCurrentOffer(offer));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const getNearOffersAction = createAsyncThunk(
+  'getNearOffers',
+  async (offerId: number) => {
+    try {
+      const {data} = await api.get<Hotel[]>(`${APIRoute.Offers}/${offerId}/nearby`);
+      const offers = data.map((offer) => getOffer(offer));
+      store.dispatch(loadNearOffers(offers));
+    } catch (error) {
+      errorHandle(error);
     }
   },
 );

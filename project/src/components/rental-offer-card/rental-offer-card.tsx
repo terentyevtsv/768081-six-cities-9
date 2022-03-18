@@ -1,6 +1,8 @@
-import { memo } from 'react';
-import { Link } from 'react-router-dom';
-import { getRatingPercent } from '../../const';
+import { memo, MouseEvent, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { setIsFavoriteAction } from '../../store/api-actions';
 import { Offer, PlaceCardType } from '../../types/offer';
 
 type RentalOfferCardProps = {
@@ -10,10 +12,35 @@ type RentalOfferCardProps = {
 };
 
 function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardProps) {
+  const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
+  const dispatch = useAppDispatch();
+  const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsFavorite(offer.isFavorite);
+  }, [offer.isFavorite]);
+
   const handleMouseOver = () => {
     if (onMouseOver !== undefined) {
       onMouseOver(offer);
     }
+  };
+
+  const handleAddToFavorites = (evt: MouseEvent): void => {
+    evt.preventDefault();
+
+    dispatch(setIsFavoriteAction({
+      offerId: offer.id,
+      isFavorite: !isFavorite,
+    }));
+
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
+      navigate(AppRoute.SignIn);
+      return;
+    }
+
+    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -47,8 +74,9 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button${offer.isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
+            className={`place-card__bookmark-button${isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
             type="button"
+            onClick={handleAddToFavorites}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -73,6 +101,7 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
 
 export default memo(RentalOfferCard, (prevProps, nextProps) => {
   const isTheSame = prevProps.offer.id === nextProps.offer.id &&
-                    prevProps.placeCardType === nextProps.placeCardType;
+                    prevProps.placeCardType === nextProps.placeCardType &&
+                    prevProps.offer.isFavorite === nextProps.offer.isFavorite;
   return isTheSame;
 });
