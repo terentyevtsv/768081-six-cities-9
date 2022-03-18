@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { DEFAULT_OFFER, NameSpace } from '../../const';
 import { OffersData } from '../../types/state';
 
 const initialState: OffersData = {
   allOffers: [],
   favoriteOffers: [],
-  currentOffer: null,
+  currentOffer: DEFAULT_OFFER,
+  isOfferExist: true,
   nearOffers: [],
   areAllOffersLoaded: false,
 };
@@ -27,6 +28,9 @@ export const offersData = createSlice({
     loadNearOffers: (state, action) => {
       state.nearOffers = action.payload;
     },
+    setIsOfferExist: (state, action) => {
+      state.isOfferExist = action.payload;
+    },
   },
 });
 
@@ -35,4 +39,5 @@ export const {
   loadFavoriteOffers,
   setCurrentOffer,
   loadNearOffers,
+  setIsOfferExist,
 } = offersData.actions;

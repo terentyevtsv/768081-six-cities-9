@@ -1,3 +1,5 @@
+import { HouseType, Offer } from './types/offer';
+
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',
@@ -66,3 +68,40 @@ export enum NameSpace {
   User = 'USER',                // статус логина пользователя
   Rental = 'RENTAL'             // объекты внутренней логики работы с арендой
 }
+
+export const OFFER_DEFAULT_ID = -1;
+
+export const DEFAULT_OFFER: Offer = {
+  id: OFFER_DEFAULT_ID,
+  city: {
+    name: '',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
+  },
+  bedroomsCount: 0,
+  description: '',
+  guestsCount: 0,
+  header: '',
+  houseType: HouseType.Apartment,
+  householdItems: [],
+  images: [],
+  isFavorite: false,
+  isPremium: false,
+  location: {
+    latitude: 0,
+    longitude: 0,
+    zoom: 0,
+  },
+  owner: {
+    id: 0,
+    avatarImage: '',
+    isPro: false,
+    name: '',
+  },
+  previewImage: '',
+  price: 0,
+  rating: 0,
+};

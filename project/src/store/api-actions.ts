@@ -7,7 +7,7 @@ import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
 import { saveAuthInfo } from '../services/token';
-import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
+import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer, setIsOfferExist } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
 import { Comment, ReviewContent } from '../types/review';
@@ -107,8 +107,10 @@ export const getOfferAction = createAsyncThunk(
       const {data} = await api.get<Hotel>(`${APIRoute.Offers}/${offerId}`);
       const offer = getOffer(data);
       store.dispatch(setCurrentOffer(offer));
+      store.dispatch(setIsOfferExist(true));
     } catch (error) {
       errorHandle(error);
+      store.dispatch(setIsOfferExist(false));
     }
   },
 );

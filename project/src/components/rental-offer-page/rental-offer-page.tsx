@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import SubmitReviewForm from '../submit-review-form/submit-review-form';
-import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
+import { AppRoute, AuthorizationStatus, getRatingPercent, OFFER_DEFAULT_ID } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
@@ -19,20 +19,25 @@ function RentalOfferPage() {
 
   const dispatch = useAppDispatch();
 
-  const { currentOffer, nearOffers } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
+  const { currentOffer, nearOffers, isOfferExist } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
   const { authorizationStatus } = useAppSelector(({USER}) => USER);
 
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(currentOffer?.isFavorite);
+  const [isFavorite, setIsFavorite] = useState(currentOffer.isFavorite);
 
   useEffect(() => {
     dispatch(getOfferAction(offerId));
+    if (!isOfferExist) {
+      navigate(AppRoute.NotFound);
+      return;
+    }
     dispatch(getNearOffersAction(offerId));
 
-    setIsFavorite(currentOffer?.isFavorite);
-  }, [currentOffer?.isFavorite, dispatch, offerId]);
+    setIsFavorite(currentOffer.isFavorite);
+  }, [currentOffer.isFavorite, dispatch, isOfferExist, navigate, offerId]);
 
-  if (currentOffer === null) {
+  // Нет необходимости рендерить значение по умолчанию
+  if (currentOffer.id === OFFER_DEFAULT_ID) {
     return null;
   }
 

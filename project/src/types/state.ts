@@ -33,7 +33,8 @@ export type Rental = {
 export type OffersData = {
   allOffers: Offer[],
   favoriteOffers: Offer[],
-  currentOffer: Offer | null,
+  currentOffer: Offer,
+  isOfferExist: boolean,
   nearOffers: Offer[],
   areAllOffersLoaded: boolean
 };
