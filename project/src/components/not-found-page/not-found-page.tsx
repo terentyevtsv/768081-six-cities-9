@@ -1,9 +1,18 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, DEFAULT_OFFER } from '../../const';
+import { useAppDispatch } from '../../hooks/hooks';
+import { setCurrentOffer, setIsOfferExist } from '../../store/offers-data/offers-data';
 import Authorization from '../authorization/authorization';
 import './css/not-found-page.css';
 
 function NotFoundPage() {
+  const dispatch = useAppDispatch();
+
+  const handleMovingToMainPage = () => {
+    dispatch(setIsOfferExist(true));
+    dispatch(setCurrentOffer(DEFAULT_OFFER));
+  };
+
   return (
     <div className="page page--not-found">
       <header className="header">
@@ -25,7 +34,12 @@ function NotFoundPage() {
             <h1 className="visually-hidden">Page is not found</h1>
             <div className="not-found__status-wrapper">
               <b className="not-found__status">Not Found</b>
-              <Link to={AppRoute.Main}>Go to main page</Link>
+              <Link
+                to={AppRoute.Main}
+                onClick={handleMovingToMainPage}
+              >
+                Go to main page
+              </Link>
             </div>
           </section>
         </div>

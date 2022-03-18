@@ -6,7 +6,7 @@ import { Hotel } from '../types/offer';
 import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
-import { saveAuthInfo } from '../services/token';
+import { dropAuthInfo, saveAuthInfo } from '../services/token';
 import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer, setIsOfferExist } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
@@ -151,6 +151,23 @@ export const addReviewAction = createAsyncThunk(
       );
       const reviews = data.map((currentComment) => getReview(currentComment));
       store.dispatch(loadOfferReviews(reviews));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const removeAuthAction = createAsyncThunk(
+  'removeAuth',
+  async () => {
+    try {
+      dropAuthInfo();
+      await api.delete(APIRoute.Logout);
+      await store.dispatch(fetchOffersAction());
+
+      store.dispatch(
+        changeAuthorizationStatus(AuthorizationStatus.NoAuth),
+      );
     } catch (error) {
       errorHandle(error);
     }

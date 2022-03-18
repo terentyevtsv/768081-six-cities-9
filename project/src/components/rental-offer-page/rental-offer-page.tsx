@@ -9,7 +9,7 @@ import './css/map.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Authorization from '../authorization/authorization';
 import { MouseEvent, useEffect, useState } from 'react';
-import { getNearOffersAction, getOfferAction, setIsFavoriteAction } from '../../store/api-actions';
+import { getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
 
 function RentalOfferPage() {
   const { pathname } = useLocation();
@@ -57,6 +57,10 @@ function RentalOfferPage() {
     setIsFavorite(!isFavorite);
   };
 
+  const handleSignOut = () => {
+    dispatch(getReviewsAction(offerId));
+  };
+
   return (
     <div className="page">
       <header className="header">
@@ -67,7 +71,7 @@ function RentalOfferPage() {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </a>
             </div>
-            <Authorization/>
+            <Authorization onSignOut={handleSignOut}/>
           </div>
         </div>
       </header>
@@ -105,7 +109,13 @@ function RentalOfferPage() {
                   {currentOffer.header}
                 </h1>
                 <button
-                  className={`property__bookmark-button${isFavorite ? ' property__bookmark-button--active' : ''}  button`}
+                  className={
+                    `property__bookmark-button${
+                      isFavorite && (authorizationStatus === AuthorizationStatus.Auth)
+                        ? ' property__bookmark-button--active'
+                        : ''
+                    } button`
+                  }
                   type="button"
                   onClick={handleAddToFavorites}
                 >
