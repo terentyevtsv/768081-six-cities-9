@@ -179,7 +179,7 @@ function RentalOfferPage() {
                 <Reviews offerId={offerId}/>
                 {
                   (authorizationStatus === AuthorizationStatus.Auth) &&
-                  <SubmitReviewForm/>
+                  <SubmitReviewForm offerId={offerId}/>
                 }
               </section>
             </div>

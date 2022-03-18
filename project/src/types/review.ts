@@ -8,6 +8,12 @@ export type Review = {
   comment: string
 };
 
+export type ReviewContent = {
+  offerId: number,
+  comment: string,
+  rating: number,
+};
+
 export type Comment = {
   comment: string
   date: string

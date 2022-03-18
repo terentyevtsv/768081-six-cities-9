@@ -10,7 +10,7 @@ import { saveAuthInfo } from '../services/token';
 import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
-import { Comment } from '../types/review';
+import { Comment, ReviewContent } from '../types/review';
 import { loadOfferReviews } from './reviews-data/reviews-data';
 
 export const fetchOffersAction = createAsyncThunk(
@@ -132,6 +132,22 @@ export const getReviewsAction = createAsyncThunk(
     try {
       const { data } = await api.get<Comment[]>(`${APIRoute.Comments}/${offerId}`);
       const reviews = data.map((comment) => getReview(comment));
+      store.dispatch(loadOfferReviews(reviews));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const addReviewAction = createAsyncThunk(
+  'addReview',
+  async ({offerId, comment, rating}: ReviewContent) => {
+    try {
+      const { data } = await api.post<Comment[]>(
+        `${APIRoute.Comments}/${offerId}`,
+        {comment, rating},
+      );
+      const reviews = data.map((currentComment) => getReview(currentComment));
       store.dispatch(loadOfferReviews(reviews));
     } catch (error) {
       errorHandle(error);
