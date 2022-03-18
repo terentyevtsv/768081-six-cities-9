@@ -61,7 +61,8 @@ export enum HTTP_CODE {
 }
 
 export enum NameSpace {
-  OffersData = 'OFFERS_DATA', // загрузочные данные по предложениям из сервера
-  User = 'USER',              // статус логина пользователя
-  Rental = 'RENTAL'           // объекты внутренней логики работы с арендой
+  OffersData = 'OFFERS_DATA',   // загрузочные данные по предложениям из сервера
+  ReviewsData = 'REVIEWS_DATA', // загрузочные данные по комментариям выбранного предложения
+  User = 'USER',                // статус логина пользователя
+  Rental = 'RENTAL'             // объекты внутренней логики работы с арендой
 }

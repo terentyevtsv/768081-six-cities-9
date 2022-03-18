@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Review } from '../../types/review';
 import SubmitCommentForm from '../submit-comment-form/submit-comment-form';
 import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
 import Reviews from '../reviews/reviews';
@@ -12,11 +11,7 @@ import Authorization from '../authorization/authorization';
 import { MouseEvent, useEffect, useState } from 'react';
 import { getNearOffersAction, getOfferAction, setIsFavoriteAction } from '../../store/api-actions';
 
-type RentalOfferPageProps = {
-  reviews: Review[]
-};
-
-function RentalOfferPage({reviews}: RentalOfferPageProps) {
+function RentalOfferPage() {
   const { pathname } = useLocation();
 
   const pathElements = pathname.split('/');
@@ -181,7 +176,7 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <Reviews reviews={reviews}/>
+                <Reviews offerId={offerId}/>
                 <SubmitCommentForm/>
               </section>
             </div>

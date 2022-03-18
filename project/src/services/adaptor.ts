@@ -1,4 +1,5 @@
 import { Hotel, HouseType, Offer } from '../types/offer';
+import { Comment, Review } from '../types/review';
 
 type AdaptHouseType = {
   [houseType: string]: HouseType
@@ -37,4 +38,21 @@ export const getOffer = (hotel: Hotel): Offer => {
   };
 
   return offer;
+};
+
+export const getReview = (serviceComment: Comment): Review => {
+  const review: Review = {
+    id: serviceComment.id,
+    rating: serviceComment.rating,
+    comment: serviceComment.comment,
+    user: {
+      id: serviceComment.user.id,
+      avatarImage: serviceComment.user.avatarUrl,
+      isPro: serviceComment.user.isPro,
+      name: serviceComment.user.name,
+    },
+    date: serviceComment.date,
+  };
+
+  return review;
 };

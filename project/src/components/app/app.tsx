@@ -6,13 +6,8 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import PrivateRoute from '../../hocs/private-route/private-route';
 import RentalOfferPage from '../rental-offer-page/rental-offer-page';
 import SignInPage from '../sign-in-page/sign-in-page';
-import { Review } from '../../types/review';
 
-type AppProps = {
-  reviews: Review[]
-};
-
-function App({reviews}: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -39,7 +34,7 @@ function App({reviews}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Room}
           element={
-            <RentalOfferPage reviews={reviews}/>
+            <RentalOfferPage/>
           }
         />
         <Route

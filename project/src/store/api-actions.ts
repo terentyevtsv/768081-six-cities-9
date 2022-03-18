@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus, HTTP_CODE } from '../const';
-import { getOffer } from '../services/adaptor';
+import { getOffer, getReview } from '../services/adaptor';
 import { errorHandle, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
 import { api, store } from '../types/state';
@@ -10,6 +10,8 @@ import { saveAuthInfo } from '../services/token';
 import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
+import { Comment } from '../types/review';
+import { loadOfferReviews } from './reviews-data/reviews-data';
 
 export const fetchOffersAction = createAsyncThunk(
   'fetchOffers',
@@ -118,6 +120,19 @@ export const getNearOffersAction = createAsyncThunk(
       const {data} = await api.get<Hotel[]>(`${APIRoute.Offers}/${offerId}/nearby`);
       const offers = data.map((offer) => getOffer(offer));
       store.dispatch(loadNearOffers(offers));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const getReviewsAction = createAsyncThunk(
+  'getReviews',
+  async (offerId: number) => {
+    try {
+      const { data } = await api.get<Comment[]>(`${APIRoute.Comments}/${offerId}`);
+      const reviews = data.map((comment) => getReview(comment));
+      store.dispatch(loadOfferReviews(reviews));
     } catch (error) {
       errorHandle(error);
     }
