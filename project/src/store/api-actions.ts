@@ -1,15 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus, HTTP_CODE } from '../const';
-import { getOffer } from '../services/adaptor';
+import { getOffer, getReview } from '../services/adaptor';
 import { errorHandle, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
 import { api, store } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
 import { AuthData } from '../types/auth-data';
-import { saveAuthInfo } from '../services/token';
-import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer } from './offers-data/offers-data';
+import { dropAuthInfo, saveAuthInfo } from '../services/token';
+import { loadFavoriteOffers, loadNearOffers, loadOffers, setCurrentOffer, setIsOfferExist } from './offers-data/offers-data';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
+import { Comment, ReviewContent } from '../types/review';
+import { loadOfferReviews } from './reviews-data/reviews-data';
 
 export const fetchOffersAction = createAsyncThunk(
   'fetchOffers',
@@ -105,8 +107,10 @@ export const getOfferAction = createAsyncThunk(
       const {data} = await api.get<Hotel>(`${APIRoute.Offers}/${offerId}`);
       const offer = getOffer(data);
       store.dispatch(setCurrentOffer(offer));
+      store.dispatch(setIsOfferExist(true));
     } catch (error) {
       errorHandle(error);
+      store.dispatch(setIsOfferExist(false));
     }
   },
 );
@@ -118,6 +122,52 @@ export const getNearOffersAction = createAsyncThunk(
       const {data} = await api.get<Hotel[]>(`${APIRoute.Offers}/${offerId}/nearby`);
       const offers = data.map((offer) => getOffer(offer));
       store.dispatch(loadNearOffers(offers));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const getReviewsAction = createAsyncThunk(
+  'getReviews',
+  async (offerId: number) => {
+    try {
+      const { data } = await api.get<Comment[]>(`${APIRoute.Comments}/${offerId}`);
+      const reviews = data.map((comment) => getReview(comment));
+      store.dispatch(loadOfferReviews(reviews));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const addReviewAction = createAsyncThunk(
+  'addReview',
+  async ({offerId, comment, rating}: ReviewContent) => {
+    try {
+      const { data } = await api.post<Comment[]>(
+        `${APIRoute.Comments}/${offerId}`,
+        {comment, rating},
+      );
+      const reviews = data.map((currentComment) => getReview(currentComment));
+      store.dispatch(loadOfferReviews(reviews));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const removeAuthAction = createAsyncThunk(
+  'removeAuth',
+  async () => {
+    try {
+      dropAuthInfo();
+      await api.delete(APIRoute.Logout);
+      await store.dispatch(fetchOffersAction());
+
+      store.dispatch(
+        changeAuthorizationStatus(AuthorizationStatus.NoAuth),
+      );
     } catch (error) {
       errorHandle(error);
     }

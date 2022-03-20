@@ -74,7 +74,13 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button${isFavorite ? ' place-card__bookmark-button--active' : ''} button`}
+            className={
+              `place-card__bookmark-button${
+                isFavorite && (authorizationStatus === AuthorizationStatus.Auth)
+                  ? ' place-card__bookmark-button--active'
+                  : ''
+              } button`
+            }
             type="button"
             onClick={handleAddToFavorites}
           >

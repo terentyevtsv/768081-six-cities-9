@@ -1,8 +1,18 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, DEFAULT_OFFER } from '../../const';
+import { useAppDispatch } from '../../hooks/hooks';
+import { setCurrentOffer, setIsOfferExist } from '../../store/offers-data/offers-data';
+import Authorization from '../authorization/authorization';
 import './css/not-found-page.css';
 
 function NotFoundPage() {
+  const dispatch = useAppDispatch();
+
+  const handleMovingToMainPage = () => {
+    dispatch(setIsOfferExist(true));
+    dispatch(setCurrentOffer(DEFAULT_OFFER));
+  };
+
   return (
     <div className="page page--not-found">
       <header className="header">
@@ -13,22 +23,7 @@ function NotFoundPage() {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </a>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="/">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="/">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <Authorization/>
           </div>
         </div>
       </header>
@@ -39,7 +34,12 @@ function NotFoundPage() {
             <h1 className="visually-hidden">Page is not found</h1>
             <div className="not-found__status-wrapper">
               <b className="not-found__status">Not Found</b>
-              <Link to={AppRoute.Main}>Go to main page</Link>
+              <Link
+                to={AppRoute.Main}
+                onClick={handleMovingToMainPage}
+              >
+                Go to main page
+              </Link>
             </div>
           </section>
         </div>

@@ -3,6 +3,7 @@ import { AuthorizationStatus, SortType } from '../const';
 import { Offer } from './offer';
 import { rootReducer } from '../store/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
+import { Review } from './review';
 
 export const api = createAPI();
 
@@ -32,8 +33,12 @@ export type Rental = {
 export type OffersData = {
   allOffers: Offer[],
   favoriteOffers: Offer[],
-  currentOffer: Offer | null,
+  currentOffer: Offer,
+  isOfferExist: boolean,
   nearOffers: Offer[],
   areAllOffersLoaded: boolean
 };
 
+export type ReviewsData = {
+  offerReviews: Review[],
+};

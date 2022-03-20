@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Review } from '../../types/review';
-import SubmitCommentForm from '../submit-comment-form/submit-comment-form';
-import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
+import SubmitReviewForm from '../submit-review-form/submit-review-form';
+import { AppRoute, AuthorizationStatus, getRatingPercent, OFFER_DEFAULT_ID } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
@@ -10,13 +9,9 @@ import './css/map.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Authorization from '../authorization/authorization';
 import { MouseEvent, useEffect, useState } from 'react';
-import { getNearOffersAction, getOfferAction, setIsFavoriteAction } from '../../store/api-actions';
+import { getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
 
-type RentalOfferPageProps = {
-  reviews: Review[]
-};
-
-function RentalOfferPage({reviews}: RentalOfferPageProps) {
+function RentalOfferPage() {
   const { pathname } = useLocation();
 
   const pathElements = pathname.split('/');
@@ -24,20 +19,25 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
 
   const dispatch = useAppDispatch();
 
-  const { currentOffer, nearOffers } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
+  const { currentOffer, nearOffers, isOfferExist } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
   const { authorizationStatus } = useAppSelector(({USER}) => USER);
 
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(currentOffer?.isFavorite);
+  const [isFavorite, setIsFavorite] = useState(currentOffer.isFavorite);
 
   useEffect(() => {
     dispatch(getOfferAction(offerId));
+    if (!isOfferExist) {
+      navigate(AppRoute.NotFound);
+      return;
+    }
     dispatch(getNearOffersAction(offerId));
 
-    setIsFavorite(currentOffer?.isFavorite);
-  }, [currentOffer?.isFavorite, dispatch, offerId]);
+    setIsFavorite(currentOffer.isFavorite);
+  }, [currentOffer.isFavorite, dispatch, isOfferExist, navigate, offerId]);
 
-  if (currentOffer === null) {
+  // Нет необходимости рендерить значение по умолчанию
+  if (currentOffer.id === OFFER_DEFAULT_ID) {
     return null;
   }
 
@@ -57,6 +57,10 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
     setIsFavorite(!isFavorite);
   };
 
+  const handleSignOut = () => {
+    dispatch(getReviewsAction(offerId));
+  };
+
   return (
     <div className="page">
       <header className="header">
@@ -67,7 +71,7 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
               </a>
             </div>
-            <Authorization/>
+            <Authorization onSignOut={handleSignOut}/>
           </div>
         </div>
       </header>
@@ -105,7 +109,13 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
                   {currentOffer.header}
                 </h1>
                 <button
-                  className={`property__bookmark-button${isFavorite ? ' property__bookmark-button--active' : ''}  button`}
+                  className={
+                    `property__bookmark-button${
+                      isFavorite && (authorizationStatus === AuthorizationStatus.Auth)
+                        ? ' property__bookmark-button--active'
+                        : ''
+                    } button`
+                  }
                   type="button"
                   onClick={handleAddToFavorites}
                 >
@@ -181,8 +191,11 @@ function RentalOfferPage({reviews}: RentalOfferPageProps) {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <Reviews reviews={reviews}/>
-                <SubmitCommentForm/>
+                <Reviews offerId={offerId}/>
+                {
+                  (authorizationStatus === AuthorizationStatus.Auth) &&
+                  <SubmitReviewForm offerId={offerId}/>
+                }
               </section>
             </div>
           </div>

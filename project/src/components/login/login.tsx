@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
@@ -13,7 +13,25 @@ function Login() {
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
-      <form className="login__form form" action="#" method="post">
+      <form
+        className="login__form form"
+        action="#"
+        method="post"
+        onSubmit={
+          (evt: SyntheticEvent) => {
+            evt.preventDefault();
+            const tempEmail = email.trim();
+            const tempPassword = password.trim();
+            dispatch(
+              setAuthAction({
+                email: tempEmail,
+                password: tempPassword,
+              }));
+
+            navigate(AppRoute.Main);
+          }
+        }
+      >
         <div className="login__input-wrapper form__input-wrapper">
           <label className="visually-hidden">E-mail</label>
           <input
@@ -43,18 +61,6 @@ function Login() {
         <button
           className="login__submit form__submit button"
           type="submit"
-          onClick={(evt: MouseEvent) => {
-            evt.preventDefault();
-            const tempEmail = email.trim();
-            const tempPassword = password.trim();
-            dispatch(
-              setAuthAction({
-                email: tempEmail,
-                password: tempPassword,
-              }));
-
-            navigate(AppRoute.Main);
-          }}
         >
           Sign in
         </button>

@@ -1,12 +1,30 @@
 import { Link } from 'react-router-dom';
 import { AuthorizationStatus } from '../../const';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { AppRoute } from '../../const';
 import { getAuthInfo } from '../../services/token';
+import { MouseEvent } from 'react';
+import { removeAuthAction } from '../../store/api-actions';
 
-function Authorization() {
+type AuthorizationProps = {
+  onSignOut?: () => void
+}
+
+function Authorization({onSignOut}: AuthorizationProps) {
   const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const dispatch =  useAppDispatch();
+
   const authInfo = getAuthInfo();
+
+  const handleSignOut = (evt: MouseEvent) => {
+    evt.preventDefault();
+
+    dispatch(removeAuthAction());
+    if (onSignOut !== undefined) {
+      onSignOut();
+    }
+  };
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -25,7 +43,11 @@ function Authorization() {
               </Link>
             </li>
             <li className="header__nav-item">
-              <a className="header__nav-link" href="/">
+              <a
+                className="header__nav-link"
+                href="/"
+                onClick={handleSignOut}
+              >
                 <span className="header__signout">Sign out</span>
               </a>
             </li>
