@@ -105,3 +105,9 @@ export const DEFAULT_OFFER: Offer = {
   price: 0,
   rating: 0,
 };
+
+export const MAX_IMAGES_COUNT = 6;
+export const MAX_REVIEWS_COUNT = 10;
+
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 300;

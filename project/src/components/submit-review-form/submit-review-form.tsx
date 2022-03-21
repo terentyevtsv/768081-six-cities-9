@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, SyntheticEvent } from 'react';
+import { MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
 import { addReviewAction } from '../../store/api-actions';
 
@@ -33,7 +34,11 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
     setComment('');
   };
 
-  const isSubmitEnabled = !(rating > 0 && comment !== '');
+  const isSubmitEnabled = !(
+    rating > 0 &&
+    comment.length >= MIN_REVIEW_LENGTH &&
+    comment.length <= MAX_REVIEW_LENGTH
+  );
 
   return (
     <form
@@ -126,6 +131,8 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
+        minLength={MIN_REVIEW_LENGTH}
+        maxLength={MAX_REVIEW_LENGTH}
       >
       </textarea>
       <div className="reviews__button-wrapper">
