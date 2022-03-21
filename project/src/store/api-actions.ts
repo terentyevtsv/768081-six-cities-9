@@ -158,8 +158,8 @@ export const addReviewAction = createAsyncThunk(
       const reviews = data.map((currentComment) => getReview(currentComment));
       store.dispatch(loadOfferReviews(reviews));
     } catch (error) {
-      store.dispatch(changeSubmitStatus(SubmitStatus.Error));
       errorHandle(error);
+      store.dispatch(changeSubmitStatus(SubmitStatus.Error));
     }
   },
 );

@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, SyntheticEvent } from 'react';
+import { useState, ChangeEvent, SyntheticEvent, useEffect } from 'react';
 import { MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, SubmitStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addReviewAction } from '../../store/api-actions';
@@ -22,19 +22,14 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
     setComment(evt.target.value);
   };
 
-  const handleSubmitReview = (evt: SyntheticEvent) => {
+  const handleSubmitReview = async (evt: SyntheticEvent) => {
     evt.preventDefault();
 
-    dispatch(addReviewAction({
+    await dispatch(addReviewAction({
       comment,
       rating,
       offerId,
     }));
-
-    if (submitStatus === SubmitStatus.Sent) {
-      setRating(0);
-      setComment('');
-    }
   };
 
   const isSubmitEnabled = !(
@@ -42,6 +37,13 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
     comment.length >= MIN_REVIEW_LENGTH &&
     comment.length <= MAX_REVIEW_LENGTH
   );
+
+  useEffect(() => {
+    if (submitStatus === SubmitStatus.Sent) {
+      setRating(0);
+      setComment('');
+    }
+  }, [submitStatus]);
 
   const isSending = submitStatus === SubmitStatus.Sending;
 
