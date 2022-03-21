@@ -1,6 +1,15 @@
+import { Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks/hooks';
 import Login from '../login/login';
 
 function SignInPage() {
+  const { authorizationStatus } = useAppSelector(({USER}) => USER);
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main} replace/>;
+  }
+
   return (
     <div className="page page--gray page--login">
       <header className="header">
