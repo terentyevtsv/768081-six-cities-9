@@ -1,5 +1,5 @@
 import {createAPI} from '../services/api';
-import { AuthorizationStatus, SortType } from '../const';
+import { AuthorizationStatus, SortType, SubmitStatus } from '../const';
 import { Offer } from './offer';
 import { rootReducer } from '../store/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
@@ -27,7 +27,8 @@ export type UserProcess = {
 export type Rental = {
   city: string,
   offers: Offer[],
-  sortType: SortType
+  sortType: SortType,
+  submitStatus: SubmitStatus
 };
 
 export type OffersData = {

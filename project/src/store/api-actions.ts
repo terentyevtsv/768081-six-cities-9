@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, AuthorizationStatus, HTTP_CODE } from '../const';
+import { APIRoute, AuthorizationStatus, HTTP_CODE, SubmitStatus } from '../const';
 import { getOffer, getReview } from '../services/adaptor';
 import { errorHandle, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
@@ -12,6 +12,7 @@ import { changeAuthorizationStatus } from './user-process/user-process';
 import { Favorite } from '../types/favorite';
 import { Comment, ReviewContent } from '../types/review';
 import { loadOfferReviews } from './reviews-data/reviews-data';
+import { changeSubmitStatus } from './rental/rental';
 
 export const fetchOffersAction = createAsyncThunk(
   'fetchOffers',
@@ -145,13 +146,19 @@ export const addReviewAction = createAsyncThunk(
   'addReview',
   async ({offerId, comment, rating}: ReviewContent) => {
     try {
+      store.dispatch(changeSubmitStatus(SubmitStatus.Sending));
+
       const { data } = await api.post<Comment[]>(
         `${APIRoute.Comments}/${offerId}`,
         {comment, rating},
       );
+
+      store.dispatch(changeSubmitStatus(SubmitStatus.Sent));
+
       const reviews = data.map((currentComment) => getReview(currentComment));
       store.dispatch(loadOfferReviews(reviews));
     } catch (error) {
+      store.dispatch(changeSubmitStatus(SubmitStatus.Error));
       errorHandle(error);
     }
   },

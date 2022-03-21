@@ -111,3 +111,9 @@ export const MAX_REVIEWS_COUNT = 10;
 
 export const MIN_REVIEW_LENGTH = 50;
 export const MAX_REVIEW_LENGTH = 300;
+
+export enum SubmitStatus {
+  Sent,
+  Sending,
+  Error
+}
