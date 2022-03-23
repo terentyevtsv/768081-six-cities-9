@@ -32,11 +32,10 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
     }));
   };
 
-  const isSubmitEnabled = !(
-    rating > 0 &&
-    comment.length >= MIN_REVIEW_LENGTH &&
-    comment.length <= MAX_REVIEW_LENGTH
-  );
+  const isSubmitDisabled =
+    rating === 0 ||
+    comment.length < MIN_REVIEW_LENGTH ||
+    comment.length > MAX_REVIEW_LENGTH;
 
   useEffect(() => {
     if (submitStatus === SubmitStatus.Sent) {
@@ -155,7 +154,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isSubmitEnabled || isSending}
+          disabled={isSubmitDisabled || isSending}
         >
           Submit
         </button>
