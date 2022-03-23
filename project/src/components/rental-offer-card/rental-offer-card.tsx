@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { setIsFavoriteAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { Offer, PlaceCardType } from '../../types/offer';
 
 type RentalOfferCardProps = {
@@ -14,7 +15,7 @@ type RentalOfferCardProps = {
 function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardProps) {
   const [isFavorite, setIsFavorite] = useState(offer.isFavorite);
   const dispatch = useAppDispatch();
-  const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
   useEffect(() => {

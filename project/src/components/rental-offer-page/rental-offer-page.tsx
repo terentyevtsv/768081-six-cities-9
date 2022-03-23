@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Authorization from '../authorization/authorization';
 import { MouseEvent, useEffect, useState } from 'react';
 import { getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
+import { getCurrentOffer, getIsOfferExist, getNearOffers } from '../../store/offers-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function RentalOfferPage() {
   const { pathname } = useLocation();
@@ -18,9 +20,13 @@ function RentalOfferPage() {
   const offerId =  parseInt(pathElements[pathElements.length - 1], 10);
 
   const dispatch = useAppDispatch();
+  const tempState = useAppSelector((state) => state);
 
-  const { currentOffer, nearOffers, isOfferExist } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
-  const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const currentOffer = getCurrentOffer(tempState);
+  const nearOffers = getNearOffers(tempState);
+  const isOfferExist = getIsOfferExist(tempState);
+
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(currentOffer.isFavorite);

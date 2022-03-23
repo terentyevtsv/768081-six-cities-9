@@ -2,6 +2,7 @@ import { useState, ChangeEvent, SyntheticEvent, useEffect } from 'react';
 import { MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, SubmitStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addReviewAction } from '../../store/api-actions';
+import { getSubmitStatus } from '../../store/rental/selectors';
 
 type SubmitReviewFormProps =  {
   offerId: number
@@ -11,7 +12,8 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const dispatch = useAppDispatch();
-  const { submitStatus } = useAppSelector(({RENTAL}) => RENTAL);
+
+  const submitStatus = useAppSelector(getSubmitStatus);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(evt.target.value, 10);

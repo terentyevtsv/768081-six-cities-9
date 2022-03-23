@@ -33,4 +33,4 @@ export const {
   fillOffers,
   changeSortOption,
   changeSubmitStatus,
-} =  rental.actions;
+} = rental.actions;

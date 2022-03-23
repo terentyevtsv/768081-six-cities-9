@@ -1,14 +1,17 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { MouseEvent } from 'react';
 import { changeCity } from '../../store/rental/rental';
+import { getCity } from '../../store/rental/selectors';
 
 type CityProps = {
   cities: string[]
 }
 
 function Cities({cities}: CityProps) {
-  const selectedCity = useAppSelector(({RENTAL}) => RENTAL.city);
   const dispatch = useAppDispatch();
+  const tempState = useAppSelector((state) => state);
+
+  const selectedCity = getCity(tempState);
 
   return (
     <section className="locations container">

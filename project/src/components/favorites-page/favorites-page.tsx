@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getFavoriteOffersAction, setIsFavoriteAction } from '../../store/api-actions';
+import { getFavoriteOffers } from '../../store/offers-data/selectors';
 import { Offer } from '../../types/offer';
 import Authorization from '../authorization/authorization';
 import CityRentalOffers from '../city-rental-offers/city-rental-offers';
@@ -17,7 +18,7 @@ function FavoritesPage() {
 
   const groupedOffers: GroupedOffers = {};
 
-  const { favoriteOffers } = useAppSelector(({OFFERS_DATA}) => OFFERS_DATA);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   favoriteOffers.forEach((offer) => {
     const cityName = offer.city.name;

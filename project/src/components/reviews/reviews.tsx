@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { MAX_REVIEWS_COUNT } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getReviewsAction } from '../../store/api-actions';
+import { getOfferReviews } from '../../store/reviews-data/selectors';
 import { Review } from '../../types/review';
 import ReviewItem from '../review-item/review-item';
 
@@ -23,7 +24,7 @@ const sortByHighDate = (review1: Review, review2: Review) => {
 
 function Reviews({offerId}: ReviewsProps) {
   const dispatch = useAppDispatch();
-  const { offerReviews } = useAppSelector(({REVIEWS_DATA}) => REVIEWS_DATA);
+  const offerReviews = useAppSelector(getOfferReviews);
 
   const tempReviews = offerReviews.slice(0);
   tempReviews.sort(sortByHighDate);

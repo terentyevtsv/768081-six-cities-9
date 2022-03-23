@@ -3,6 +3,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, cities, randomInteger } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { changeCity } from '../../store/rental/rental';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import Login from '../login/login';
 
 const getRandomCity = () => {
@@ -12,7 +13,7 @@ const getRandomCity = () => {
 };
 
 function SignInPage() {
-  const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const [randomCity, setRandomCity] = useState('');
 

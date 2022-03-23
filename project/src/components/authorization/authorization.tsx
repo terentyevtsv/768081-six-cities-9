@@ -5,13 +5,14 @@ import { AppRoute } from '../../const';
 import { getAuthInfo } from '../../services/token';
 import { MouseEvent } from 'react';
 import { removeAuthAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type AuthorizationProps = {
   onSignOut?: () => void
 }
 
 function Authorization({onSignOut}: AuthorizationProps) {
-  const { authorizationStatus } = useAppSelector(({USER}) => USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch =  useAppDispatch();
 
   const authInfo = getAuthInfo();

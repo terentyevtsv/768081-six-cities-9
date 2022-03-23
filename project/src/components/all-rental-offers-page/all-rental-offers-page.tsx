@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { getAllOffers, getAreAllOffersLoadedStatus } from '../../store/offers-data/selectors';
 import { fillOffers } from '../../store/rental/rental';
+import { getCity, getSelectedCityOffers } from '../../store/rental/selectors';
 import { CityContent } from '../../types/offer';
 import Authorization from '../authorization/authorization';
 import Cities from '../cities/cities';
@@ -31,10 +33,13 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 
 function AllRentalOffersPage() {
   const dispatch = useAppDispatch();
-
   const tempState = useAppSelector((state) => state);
-  const { offers, city } = tempState.RENTAL;
-  const { areAllOffersLoaded, allOffers } = tempState.OFFERS_DATA;
+
+  const offers = getSelectedCityOffers(tempState);
+  const city = getCity(tempState);
+
+  const areAllOffersLoaded = getAreAllOffersLoadedStatus(tempState);
+  const allOffers = getAllOffers(tempState);
 
   useEffect(() => {
     const cityOffers = allOffers

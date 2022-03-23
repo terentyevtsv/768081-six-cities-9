@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { sortOptions } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { changeSortOption } from '../../store/rental/rental';
+import { getSortType } from '../../store/rental/selectors';
 
 function SortOptions() {
-  const { sortType } = useAppSelector(({RENTAL}) => RENTAL);
+  const sortType = useAppSelector(getSortType);
   const [sort, setSort] = useState(sortType);
 
   const [isActive, setIsActive] = useState(false);
