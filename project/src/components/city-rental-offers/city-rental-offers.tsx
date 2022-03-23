@@ -1,6 +1,8 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { getRatingPercent } from '../../const';
+import { AppRoute, getRatingPercent } from '../../const';
+import { useAppDispatch } from '../../hooks/hooks';
+import { changeCity } from '../../store/rental/rental';
 import { Offer } from '../../types/offer';
 
 type CityRentalOffersProps = {
@@ -14,13 +16,19 @@ function CityRentalOffers({
   offers,
   onRemoveFavoriteOffer,
 }: CityRentalOffersProps) {
+  const dispatch = useAppDispatch();
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="/">
+          <Link
+            className="locations__item-link"
+            to={AppRoute.Main}
+            onClick={() => dispatch(changeCity(cityName))}
+          >
             <span>{cityName}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">

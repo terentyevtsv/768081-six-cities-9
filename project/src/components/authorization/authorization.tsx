@@ -8,10 +8,11 @@ import { removeAuthAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type AuthorizationProps = {
-  onSignOut?: () => void
+  onSignOut?: () => void,
+  onMovingToMainPage?: () => void
 }
 
-function Authorization({onSignOut}: AuthorizationProps) {
+function Authorization({onSignOut, onMovingToMainPage}: AuthorizationProps) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch =  useAppDispatch();
 
@@ -35,6 +36,7 @@ function Authorization({onSignOut}: AuthorizationProps) {
             <li className="header__nav-item user">
               <Link
                 className="header__nav-link header__nav-link--profile"
+                onClick={onMovingToMainPage}
                 to={AppRoute.Favorites}
               >
                 <div className="header__avatar-wrapper user__avatar-wrapper">

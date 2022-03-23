@@ -3,8 +3,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getFavoriteOffersAction, setIsFavoriteAction } from '../../store/api-actions';
 import { getFavoriteOffers } from '../../store/offers-data/selectors';
 import { Offer } from '../../types/offer';
-import Authorization from '../authorization/authorization';
 import CityRentalOffers from '../city-rental-offers/city-rental-offers';
+import Footer from '../footer/footer';
+import Header from '../header/header';
 
 type GroupedOffers = {
   [key: string]: Offer[]
@@ -41,18 +42,7 @@ function FavoritesPage() {
 
   return (
     <div className={`page${keys.length > 0 ? '' : ' page--favorites-empty'}`}>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
-            <Authorization/>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main
         className={`page__main page__main--favorites${keys.length > 0 ? '' : ' page__main--favorites-empty'}`}
@@ -91,11 +81,7 @@ function FavoritesPage() {
           </section>
         </div>
       </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
-      </footer>
+      <Footer/>
     </div>
   );
 }
