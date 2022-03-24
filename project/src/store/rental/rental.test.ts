@@ -9,13 +9,14 @@ import {
 } from './rental';
 
 const offers = makeFakeOffers();
-const anotherCity = 'Amsterdam';
+const oneCity = 'New  York';
+const anotherCity = 'Moscow';
 
 describe('Reducer: rental', () => {
   it('without additional parameters should return initial state', () => {
     expect(rental.reducer(void 0, {type: ONE_ACTION}))
       .toEqual({
-        city: 'Paris',
+        city: oneCity,
         offers: [],
         sortType: SortType.Popular,
         submitStatus: SubmitStatus.Sent,
@@ -24,7 +25,7 @@ describe('Reducer: rental', () => {
 
   it('should change city', () => {
     const state = {
-      city: 'Paris',
+      city: oneCity,
       offers,
       sortType: SortType.Popular,
       submitStatus: SubmitStatus.Sent,
@@ -40,14 +41,14 @@ describe('Reducer: rental', () => {
 
   it('should fill offers after city changed', () => {
     const state = {
-      city: anotherCity,
+      city: oneCity,
       offers: [],
       sortType: SortType.Popular,
       submitStatus: SubmitStatus.Sent,
     };
     expect(rental.reducer(state, fillOffers(offers)))
       .toEqual({
-        city: anotherCity,
+        city: oneCity,
         offers,
         sortType: SortType.Popular,
         submitStatus: SubmitStatus.Sent,
@@ -56,15 +57,15 @@ describe('Reducer: rental', () => {
 
   it('should change sort option', () => {
     const state = {
-      city: anotherCity,
-      offers,
+      city: oneCity,
+      offers: [],
       sortType: SortType.Popular,
       submitStatus: SubmitStatus.Sent,
     };
     expect(rental.reducer(state, changeSortOption(SortType.HighPriceFirst)))
       .toEqual({
-        city: anotherCity,
-        offers,
+        city: oneCity,
+        offers: [],
         sortType: SortType.HighPriceFirst,
         submitStatus: SubmitStatus.Sent,
       });
@@ -72,15 +73,15 @@ describe('Reducer: rental', () => {
 
   it('should change submit status', () => {
     const state = {
-      city: anotherCity,
-      offers,
+      city: oneCity,
+      offers: [],
       sortType: SortType.Popular,
       submitStatus: SubmitStatus.Sent,
     };
     expect(rental.reducer(state, changeSubmitStatus(SubmitStatus.Sending)))
       .toEqual({
-        city: anotherCity,
-        offers,
+        city: oneCity,
+        offers: [],
         sortType: SortType.Popular,
         submitStatus: SubmitStatus.Sending,
       });

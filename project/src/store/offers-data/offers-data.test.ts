@@ -46,7 +46,7 @@ describe('Reducer: offersData', () => {
 
   it('should update favorite offers by load favorite offers', () => {
     const state = {
-      allOffers: offers,
+      allOffers: [],
       favoriteOffers: [],
       currentOffer: DEFAULT_OFFER,
       isOfferExist: true,
@@ -55,7 +55,7 @@ describe('Reducer: offersData', () => {
     };
     expect(offersData.reducer(state, loadFavoriteOffers(offers)))
       .toEqual({
-        allOffers: offers,
+        allOffers: [],
         favoriteOffers: offers,
         currentOffer: DEFAULT_OFFER,
         isOfferExist: true,
@@ -66,7 +66,7 @@ describe('Reducer: offersData', () => {
 
   it('should update current offer', () => {
     const state = {
-      allOffers: offers,
+      allOffers: [],
       favoriteOffers: [],
       currentOffer: DEFAULT_OFFER,
       isOfferExist: true,
@@ -75,7 +75,7 @@ describe('Reducer: offersData', () => {
     };
     expect(offersData.reducer(state, setCurrentOffer(offers[0])))
       .toEqual({
-        allOffers: offers,
+        allOffers: [],
         favoriteOffers: [],
         currentOffer: offers[0],
         isOfferExist: true,
@@ -86,9 +86,9 @@ describe('Reducer: offersData', () => {
 
   it('should update near offers by load near offers', () => {
     const state = {
-      allOffers: offers,
+      allOffers: [],
       favoriteOffers: [],
-      currentOffer: offers[0],
+      currentOffer: DEFAULT_OFFER,
       isOfferExist: true,
       nearOffers: [],
       areAllOffersLoaded: true,
@@ -97,9 +97,9 @@ describe('Reducer: offersData', () => {
 
     expect(offersData.reducer(state, loadNearOffers(nearOffers)))
       .toEqual({
-        allOffers: offers,
+        allOffers: [],
         favoriteOffers: [],
-        currentOffer: offers[0],
+        currentOffer: DEFAULT_OFFER,
         isOfferExist: true,
         nearOffers,
         areAllOffersLoaded: true,
@@ -108,7 +108,7 @@ describe('Reducer: offersData', () => {
 
   it('isOfferExist should be true if offer was found by id', () => {
     const state = {
-      allOffers: offers,
+      allOffers: [],
       favoriteOffers: [],
       currentOffer: DEFAULT_OFFER,
       isOfferExist: false,
@@ -118,7 +118,7 @@ describe('Reducer: offersData', () => {
 
     expect(offersData.reducer(state, setIsOfferExist(true)))
       .toEqual({
-        allOffers: offers,
+        allOffers: [],
         favoriteOffers: [],
         currentOffer: DEFAULT_OFFER,
         isOfferExist: true,
@@ -129,7 +129,7 @@ describe('Reducer: offersData', () => {
 
   it('isOfferExist should be false if offer was not found by id', () => {
     const state = {
-      allOffers: offers,
+      allOffers: [],
       favoriteOffers: [],
       currentOffer: DEFAULT_OFFER,
       isOfferExist: true,
@@ -138,7 +138,7 @@ describe('Reducer: offersData', () => {
     };
     expect(offersData.reducer(state, setIsOfferExist(false)))
       .toEqual({
-        allOffers: offers,
+        allOffers: [],
         favoriteOffers: [],
         currentOffer: DEFAULT_OFFER,
         isOfferExist: false,
