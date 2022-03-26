@@ -252,7 +252,7 @@ describe('Async actions', () => {
 
   it('should change submit status and dispatch loadOfferReviews', async () => {
     mockAPI
-      .onPost(`${APIRoute.Comments}/${fakeComment.id}`)
+      .onPost(`${APIRoute.Comments}/${fakeOffer.id}`)
       .reply(HTTP_CODE.OK, fakeComments);
 
     const store = mockStore();
