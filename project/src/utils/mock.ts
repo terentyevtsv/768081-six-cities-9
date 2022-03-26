@@ -1,7 +1,9 @@
-import { address, datatype, image, lorem, name } from 'faker';
+import { address, datatype, image, internet, lorem, name } from 'faker';
 import { MAX_REVIEWS_COUNT, randomInteger } from '../const';
-import { HouseType, Offer } from '../types/offer';
-import { Review } from '../types/review';
+import { getOffer, getReview } from '../services/adaptor';
+import { AuthData } from '../types/auth-data';
+import { Hotel, HouseType, Offer } from '../types/offer';
+import { Comment, Review } from '../types/review';
 
 const houseTypes: HouseType[] = [
   HouseType.Apartment,
@@ -10,12 +12,12 @@ const houseTypes: HouseType[] = [
   HouseType.PrivateRoom,
 ];
 
-const createOffer = (id: number) => {
-  const offer: Offer = {
-    bedroomsCount: datatype.number(5),
+const createHotel = (id: number) => {
+  const hotel: Hotel = {
+    bedrooms: datatype.number(5),
     description: lorem.sentences(3),
-    guestsCount: datatype.number(5),
-    header: lorem.sentence(1),
+    maxAdults: datatype.number(5),
+    title: lorem.sentence(1),
     city: {
       name: address.cityName(),
       location: {
@@ -25,7 +27,7 @@ const createOffer = (id: number) => {
       },
     },
     images: new Array(4).fill('').map(() => image.imageUrl()),
-    householdItems: new Array(10).fill('').map(() => lorem.word()),
+    goods: new Array(10).fill('').map(() => lorem.word()),
     isFavorite: datatype.boolean(),
     isPremium: datatype.boolean(),
     price: datatype.number(200),
@@ -37,39 +39,52 @@ const createOffer = (id: number) => {
       longitude: parseFloat(address.longitude()),
       zoom: 15,
     },
-    owner: {
+    host: {
       id: 1,
       isPro: datatype.boolean(),
       name: name.firstName(),
-      avatarImage: image.avatar(),
+      avatarUrl: image.avatar(),
     },
-    houseType: houseTypes[randomInteger(0, houseTypes.length - 1)],
+    type: houseTypes[randomInteger(0, houseTypes.length - 1)],
   };
 
-  return offer;
+  return hotel;
 };
 
-const createReview = (id: number) => {
-  const review: Review = {
+const createComment = (id: number) => {
+  const review: Comment = {
     id,
     comment: lorem.sentences(3),
     rating: datatype.number(5),
-    date: datatype.datetime().toUTCString(),
+    date: datatype.datetime().toString(),
     user: {
       id: 1,
       isPro: datatype.boolean(),
       name: name.firstName(),
-      avatarImage: image.imageUrl(),
+      avatarUrl: image.imageUrl(),
     },
   };
 
   return review;
 };
 
+const OFFERS_COUNT = 4;
+
 export const makeFakeOffers = (): Offer[] =>
-  new Array(4).fill(null).map((_offer, index) => createOffer(index));
+  new Array(OFFERS_COUNT).fill(null).map((_offer, index) => getOffer(createHotel(index)));
+
+export const makeFakeHotels = (): Hotel[] =>
+  new Array(OFFERS_COUNT).fill(null).map((_offer, index) => createHotel(index));
 
 export const makeFakeReviews = (): Review[] =>
-  new Array(MAX_REVIEWS_COUNT).fill(null).map((_review,  index) => createReview(index));
+  new Array(MAX_REVIEWS_COUNT).fill(null).map((_review,  index) => getReview(createComment(index)));
+
+export const makeFakeComments = (): Comment[] =>
+  new Array(MAX_REVIEWS_COUNT).fill(null).map((_comment, index) => createComment(index));
+
+export const fakeAuthData: AuthData = {
+  email: internet.email(),
+  password: internet.password(),
+};
 
 export const ONE_ACTION = 'UNKNOWN_ACTION';
