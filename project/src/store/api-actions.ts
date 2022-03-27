@@ -20,7 +20,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'fetchOffers',
+  'data/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Hotel[]>(APIRoute.Offers);
@@ -38,7 +38,7 @@ export const getAuthAction = createAsyncThunk<void, undefined, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'getAuth',
+  'user/getAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
       await api.get(APIRoute.Login);
@@ -59,7 +59,7 @@ export const setAuthAction = createAsyncThunk<void, AuthData, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'setAuth',
+  'user/setAuth',
   async (authData: AuthData, {dispatch, extra: api}) => {
     try {
       const { data } = await api.post<AuthInfo>(APIRoute.Login, authData);
@@ -84,7 +84,7 @@ export const setIsFavoriteAction = createAsyncThunk<void, Favorite, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'setIsFavorite',
+  'offer/setIsFavorite',
   async ({offerId, isFavorite}: Favorite, {dispatch, extra: api}) => {
     try {
       await api.post<Hotel>(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`);
@@ -107,7 +107,7 @@ export const getFavoriteOffersAction = createAsyncThunk<void, undefined, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'getFavoriteOffers',
+  'data/getFavoriteOffers',
   async (_arg, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Hotel[]>(APIRoute.Favorite);
@@ -128,7 +128,7 @@ export const getOfferAction = createAsyncThunk<void, number, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'getOffer',
+  'data/getOffer',
   async (offerId: number, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Hotel>(`${APIRoute.Offers}/${offerId}`);
@@ -147,7 +147,7 @@ export const getNearOffersAction = createAsyncThunk<void, number, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'getNearOffers',
+  'data/getNearOffers',
   async (offerId: number, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Hotel[]>(`${APIRoute.Offers}/${offerId}/nearby`);
@@ -164,7 +164,7 @@ export const getReviewsAction = createAsyncThunk<void, number, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'getReviews',
+  'data/getReviews',
   async (offerId: number, {dispatch, extra: api}) => {
     try {
       const { data } = await api.get<Comment[]>(`${APIRoute.Comments}/${offerId}`);
@@ -181,7 +181,7 @@ export const addReviewAction = createAsyncThunk<void, ReviewContent, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'addReview',
+  'data/addReview',
   async ({offerId, comment, rating}: ReviewContent, {dispatch, extra: api}) => {
     try {
       dispatch(changeSubmitStatus(SubmitStatus.Sending));
@@ -207,7 +207,7 @@ export const removeAuthAction = createAsyncThunk<void, undefined, {
   state: RootState,
   extra: AxiosInstance
 }>(
-  'removeAuth',
+  'user/removeAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
       dropAuthInfo();
