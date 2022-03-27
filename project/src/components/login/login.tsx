@@ -30,7 +30,7 @@ const isPasswordCorrect = (password: string) => {
 
   const isCorrect = figureCount >= 1 && charsCount >= 1;
   if (!isCorrect) {
-    toast.info('Password has not minimum 1 figure and 1 char');
+    toast.info('Password has not minimum 1 digit and 1 letter');
   }
 
   return isCorrect;
