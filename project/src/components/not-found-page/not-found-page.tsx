@@ -9,6 +9,10 @@ import './css/not-found-page.css';
 function NotFoundPage() {
   const dispatch = useAppDispatch();
 
+  const onMovingToMainPage = () => {
+    handleMovingToMainPage();
+  };
+
   const handleMovingToMainPage = () => {
     dispatch(setIsOfferExist(true));
     dispatch(setCurrentOffer(DEFAULT_OFFER));
@@ -16,7 +20,7 @@ function NotFoundPage() {
 
   return (
     <div className="page page--not-found">
-      <Header onMovingToMainPage={handleMovingToMainPage}/>
+      <Header onMovingToMainPage={onMovingToMainPage}/>
 
       <main className="page__main page__main--not-found">
         <div className="container">
@@ -34,7 +38,7 @@ function NotFoundPage() {
           </section>
         </div>
       </main>
-      <Footer onMovingToMainPage={handleMovingToMainPage}/>
+      <Footer onMovingToMainPage={onMovingToMainPage}/>
     </div>
   );
 }

@@ -63,13 +63,13 @@ function RentalOfferPage() {
     setIsFavorite(!isFavorite);
   };
 
-  const handleSignOut = () => {
+  const onSignOut = () => {
     dispatch(getReviewsAction(offerId));
   };
 
   return (
     <div className="page">
-      <Header onSignOut={handleSignOut}/>
+      <Header onSignOut={onSignOut}/>
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">

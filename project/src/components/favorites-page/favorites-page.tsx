@@ -32,7 +32,7 @@ function FavoritesPage() {
 
   const keys = Object.keys(groupedOffers);
 
-  const handleRemoveFavoriteOffer = async (offer: Offer) => {
+  const onRemoveFavoriteOffer = async (offer: Offer) => {
     await dispatch(setIsFavoriteAction({
       offerId: offer.id,
       isFavorite: false,
@@ -61,7 +61,7 @@ function FavoritesPage() {
                           cityName={cityName}
                           offers={groupedOffers[cityName]}
                           key={cityName}
-                          onRemoveFavoriteOffer={handleRemoveFavoriteOffer}
+                          onRemoveFavoriteOffer={onRemoveFavoriteOffer}
                         />
                       ))
                   }
