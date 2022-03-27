@@ -18,7 +18,7 @@ export type User = {
 
 export enum HouseType {
   Apartment = 'Apartment',
-  PrivateRoom = 'Private room',
+  PrivateRoom = 'Private Room',
   House = 'House',
   Hotel = 'Hotel'
 }

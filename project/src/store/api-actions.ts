@@ -27,6 +27,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
       const offers = data.map((hotel) => getOffer(hotel));
       dispatch(loadOffers(offers));
     } catch (error) {
+      dispatch(loadOffers([]));
       errorHandle(error);
     }
   },
