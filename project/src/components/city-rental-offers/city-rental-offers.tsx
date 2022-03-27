@@ -2,6 +2,7 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute, getRatingPercent } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
+import { fetchOffersAction } from '../../store/api-actions';
 import { changeCity } from '../../store/rental/rental';
 import { Offer } from '../../types/offer';
 
@@ -18,6 +19,11 @@ function CityRentalOffers({
 }: CityRentalOffersProps) {
   const dispatch = useAppDispatch();
 
+  const handleRedirectToMainPage = async () => {
+    await dispatch(fetchOffersAction());
+    dispatch(changeCity(cityName));
+  };
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -25,7 +31,7 @@ function CityRentalOffers({
           <Link
             className="locations__item-link"
             to={AppRoute.Main}
-            onClick={() => dispatch(changeCity(cityName))}
+            onClick={handleRedirectToMainPage}
           >
             <span>{cityName}</span>
           </Link>
