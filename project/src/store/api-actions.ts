@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, AuthorizationStatus, HTTP_CODE, SubmitStatus } from '../const';
+import { APIRoute, AuthorizationStatus, HttpCode, SubmitStatus } from '../const';
 import { getOffer, getReview } from '../services/adaptor';
 import { handleError, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
@@ -90,7 +90,7 @@ export const setIsFavoriteAction = createAsyncThunk<void, Favorite, {
       await api.post<Hotel>(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`);
     } catch (error) {
       const status = getStatusCode(error);
-      if (status === HTTP_CODE.Unauthorized) {
+      if (status === HttpCode.Unauthorized) {
         dispatch(
           changeAuthorizationStatus(AuthorizationStatus.NoAuth),
         );

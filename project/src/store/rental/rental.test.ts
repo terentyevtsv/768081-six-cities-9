@@ -1,5 +1,5 @@
 import { SortType, SubmitStatus } from '../../const';
-import { makeFakeOffers, ONE_ACTION } from '../../utils/mock';
+import { makeFakeOffers } from '../../utils/mock';
 import {
   changeCity,
   changeSortOption,
@@ -13,16 +13,6 @@ const oneCity = 'New  York';
 const anotherCity = 'Moscow';
 
 describe('Reducer: rental', () => {
-  it('without additional parameters should return initial state', () => {
-    expect(rental.reducer(void 0, {type: ONE_ACTION}))
-      .toEqual({
-        city: oneCity,
-        offers: [],
-        sortType: SortType.Popular,
-        submitStatus: SubmitStatus.Sent,
-      });
-  });
-
   it('should change city', () => {
     const state = {
       city: oneCity,

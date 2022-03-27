@@ -4,7 +4,7 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import { RootState } from '../types/state';
 import { Action } from '@reduxjs/toolkit';
-import { APIRoute, HTTP_CODE, randomInteger } from '../const';
+import { APIRoute, HttpCode, randomInteger } from '../const';
 import { addReviewAction, fetchOffersAction, getAuthAction, getFavoriteOffersAction, getNearOffersAction, getOfferAction, getReviewsAction, setAuthAction, setIsFavoriteAction } from './api-actions';
 import { changeAuthorizationStatus } from './user-process/user-process';
 import { fakeAuthData, makeFakeComments, makeFakeHotels } from '../utils/mock';
@@ -14,21 +14,21 @@ import { loadOfferReviews } from './reviews-data/reviews-data';
 import { changeSubmitStatus } from './rental/rental';
 
 const error401: ErrorType = {
-  status: HTTP_CODE.Unauthorized,
+  status: HttpCode.Unauthorized,
   data: {
     error: 'UNAUTHORIZED',
   },
 };
 
 const error404: ErrorType = {
-  status: HTTP_CODE.NotFound,
+  status: HttpCode.NotFound,
   data: {
     error: 'NOT_FOUND',
   },
 };
 
 const error400: ErrorType = {
-  status: HTTP_CODE.BadRequest,
+  status: HttpCode.BadRequest,
   data: {
     error: 'BAD_REQUEST',
   },
@@ -54,7 +54,7 @@ describe('Async actions', () => {
   it('should authorization change status when server return 200', async () => {
     mockAPI
       .onGet(APIRoute.Login)
-      .reply(HTTP_CODE.Ok, {});
+      .reply(HttpCode.Ok, {});
 
     const store = mockStore();
 
@@ -74,7 +74,7 @@ describe('Async actions', () => {
   it('should authorization change status when server return 401', async () => {
     mockAPI
       .onGet(APIRoute.Login)
-      .reply(HTTP_CODE.Unauthorized, error401);
+      .reply(HttpCode.Unauthorized, error401);
 
     const store = mockStore();
 
@@ -94,7 +94,7 @@ describe('Async actions', () => {
   it('should dispatch loadOffers when get hotels', async () => {
     mockAPI
       .onGet(APIRoute.Offers)
-      .reply(HTTP_CODE.Ok, fakeOffers);
+      .reply(HttpCode.Ok, fakeOffers);
 
     const store = mockStore();
 
@@ -113,7 +113,7 @@ describe('Async actions', () => {
   it('should change auth when returns 400', async () => {
     mockAPI
       .onPost(APIRoute.Login, fakeAuthData)
-      .reply(HTTP_CODE.BadRequest, error400);
+      .reply(HttpCode.BadRequest, error400);
 
     const store = mockStore();
 
@@ -133,7 +133,7 @@ describe('Async actions', () => {
 
     mockAPI
       .onPost(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`)
-      .reply(HTTP_CODE.Unauthorized, error401);
+      .reply(HttpCode.Unauthorized, error401);
 
     const store = mockStore();
 
@@ -150,7 +150,7 @@ describe('Async actions', () => {
   it('should dispatch loadFavoriteOffers when /favorite return 200', async () => {
     mockAPI
       .onGet(APIRoute.Favorite)
-      .reply(HTTP_CODE.Ok, fakeOffers);
+      .reply(HttpCode.Ok, fakeOffers);
 
     const store = mockStore();
 
@@ -167,7 +167,7 @@ describe('Async actions', () => {
   it('should change auth status when /favorite return 401', async () => {
     mockAPI
       .onGet(APIRoute.Favorite)
-      .reply(HTTP_CODE.Unauthorized, error401);
+      .reply(HttpCode.Unauthorized, error401);
 
     const store = mockStore();
 
@@ -184,7 +184,7 @@ describe('Async actions', () => {
   it('should change current offer and isOfferExist when /hotels/:hotelId returns 200', async () => {
     mockAPI
       .onGet(`${APIRoute.Offers}/${fakeOffer.id}`)
-      .reply(HTTP_CODE.Ok, fakeOffer);
+      .reply(HttpCode.Ok, fakeOffer);
 
     const store = mockStore();
 
@@ -202,7 +202,7 @@ describe('Async actions', () => {
   it('should change isOfferExist when /hotels/:hotelId returns 404', async () => {
     mockAPI
       .onGet(`${APIRoute.Offers}/${fakeOffer.id}`)
-      .reply(HTTP_CODE.NotFound, error404);
+      .reply(HttpCode.NotFound, error404);
 
     const store = mockStore();
 
@@ -219,7 +219,7 @@ describe('Async actions', () => {
   it('should dispatch loadNearOffers when getNearOffers returns 200', async () => {
     mockAPI
       .onGet(`${APIRoute.Offers}/${fakeOffer.id}/nearby`)
-      .reply(HTTP_CODE.Ok, fakeOffers);
+      .reply(HttpCode.Ok, fakeOffers);
 
     const store = mockStore();
 
@@ -236,7 +236,7 @@ describe('Async actions', () => {
   it('should dispatch loadOfferReviews when getReviews returns 200', async () => {
     mockAPI
       .onGet(`${APIRoute.Comments}/${fakeOffer.id}`)
-      .reply(HTTP_CODE.Ok, fakeComments);
+      .reply(HttpCode.Ok, fakeComments);
 
     const store = mockStore();
 
@@ -253,7 +253,7 @@ describe('Async actions', () => {
   it('should change submit status and dispatch loadOfferReviews', async () => {
     mockAPI
       .onPost(`${APIRoute.Comments}/${fakeOffer.id}`)
-      .reply(HTTP_CODE.Ok, fakeComments);
+      .reply(HttpCode.Ok, fakeComments);
 
     const store = mockStore();
 
@@ -274,7 +274,7 @@ describe('Async actions', () => {
   it('should change submit status when 401', async () => {
     mockAPI
       .onPost(`${APIRoute.Comments}/${fakeComment.id}`)
-      .reply(HTTP_CODE.Unauthorized, error401);
+      .reply(HttpCode.Unauthorized, error401);
 
     const store = mockStore();
 

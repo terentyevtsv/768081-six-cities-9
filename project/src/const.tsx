@@ -19,11 +19,15 @@ export const MAX_RATING = 5;
 export const getRatingPercent = (rating: number): number =>
   Math.round(rating) / MAX_RATING * 100;
 
-export const URL_PIN_DEFAULT = 'img/pin.svg';
-export const URL_PIN_CURRENT = 'img/pin-active.svg';
+export enum PinURL {
+  Default = 'img/pin.svg',
+  Current = 'img/pin-active.svg'
+}
 
-export const PIN_WIDTH = 42;
-export const PIN_HEIGHT = 68;
+export enum PinSize {
+  Width = 42,
+  Height = 68
+}
 
 export const cities = [
   'Paris',
@@ -56,7 +60,7 @@ export enum APIRoute {
   Logout =  '/logout'
 }
 
-export enum HTTP_CODE {
+export enum HttpCode {
   BadRequest = 400,
   Unauthorized = 401,
   NotFound = 404,
@@ -107,11 +111,15 @@ export const DEFAULT_OFFER: Offer = {
   rating: 0,
 };
 
-export const MAX_IMAGES_COUNT = 6;
-export const MAX_REVIEWS_COUNT = 10;
+export enum MaxObjectNumber {
+  ImagesCount = 6,
+  ReviewsCount = 10
+}
 
-export const MIN_REVIEW_LENGTH = 50;
-export const MAX_REVIEW_LENGTH = 300;
+export enum ReviewLength {
+  Min = 50,
+  Max = 300
+}
 
 export enum SubmitStatus {
   Sent,

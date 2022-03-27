@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MAX_REVIEWS_COUNT } from '../../const';
+import { MaxObjectNumber } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getReviewsAction } from '../../store/api-actions';
 import { getOfferReviews } from '../../store/reviews-data/selectors';
@@ -39,7 +39,7 @@ function Reviews({offerId}: ReviewsProps) {
       </h2>
       <ul className="reviews__list">
         {
-          tempReviews.slice(0, MAX_REVIEWS_COUNT).map((review) => (
+          tempReviews.slice(0, MaxObjectNumber.ReviewsCount).map((review) => (
             <ReviewItem
               key={review.id}
               review={review}

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import SubmitReviewForm from '../submit-review-form/submit-review-form';
-import { AppRoute, AuthorizationStatus, getRatingPercent, MAX_IMAGES_COUNT, OFFER_DEFAULT_ID } from '../../const';
+import { AppRoute, AuthorizationStatus, getRatingPercent, MaxObjectNumber, OFFER_DEFAULT_ID } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
@@ -75,7 +75,7 @@ function RentalOfferPage() {
           <div className="property__gallery-container container">
             <div className="property__gallery">
               {
-                currentOffer.images.slice(0, MAX_IMAGES_COUNT).map((image) =>
+                currentOffer.images.slice(0, MaxObjectNumber.ImagesCount).map((image) =>
                   (
                     <div
                       className="property__image-wrapper"

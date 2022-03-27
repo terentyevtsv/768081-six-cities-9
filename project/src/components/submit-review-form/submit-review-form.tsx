@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, SyntheticEvent, useEffect } from 'react';
-import { MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, SubmitStatus } from '../../const';
+import { ReviewLength, SubmitStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addReviewAction } from '../../store/api-actions';
 import { getSubmitStatus } from '../../store/rental/selectors';
@@ -36,8 +36,8 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
 
   const isSubmitDisabled =
     rating === 0 ||
-    comment.length < MIN_REVIEW_LENGTH ||
-    comment.length > MAX_REVIEW_LENGTH;
+    comment.length < ReviewLength.Min ||
+    comment.length > ReviewLength.Max;
 
   useEffect(() => {
     if (submitStatus === SubmitStatus.Sent) {
@@ -144,8 +144,8 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
-        minLength={MIN_REVIEW_LENGTH}
-        maxLength={MAX_REVIEW_LENGTH}
+        minLength={ReviewLength.Min}
+        maxLength={ReviewLength.Max}
         disabled={isSending}
       >
       </textarea>
