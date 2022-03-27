@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute, AuthorizationStatus, HTTP_CODE, SubmitStatus } from '../const';
 import { getOffer, getReview } from '../services/adaptor';
-import { errorHandle, getStatusCode } from '../services/error-handle';
+import { handleError, getStatusCode } from '../services/error-handle';
 import { Hotel } from '../types/offer';
 import { AppDispatch, RootState } from '../types/state';
 import { AuthInfo } from '../types/auth-info';
@@ -28,7 +28,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
       dispatch(loadOffers(offers));
     } catch (error) {
       dispatch(loadOffers([]));
-      errorHandle(error);
+      handleError(error);
     }
   },
 );
@@ -46,7 +46,7 @@ export const getAuthAction = createAsyncThunk<void, undefined, {
         changeAuthorizationStatus(AuthorizationStatus.Auth),
       );
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
       dispatch(
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
@@ -71,7 +71,7 @@ export const setAuthAction = createAsyncThunk<void, AuthData, {
 
       dispatch(fetchOffersAction());
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
       dispatch(
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
@@ -97,7 +97,7 @@ export const setIsFavoriteAction = createAsyncThunk<void, Favorite, {
         return;
       }
 
-      errorHandle(error);
+      handleError(error);
     }
   },
 );
@@ -115,7 +115,7 @@ export const getFavoriteOffersAction = createAsyncThunk<void, undefined, {
 
       dispatch(loadFavoriteOffers(offers));
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
       dispatch(
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
@@ -136,7 +136,7 @@ export const getOfferAction = createAsyncThunk<void, number, {
       dispatch(setCurrentOffer(offer));
       dispatch(setIsOfferExist(true));
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
       dispatch(setIsOfferExist(false));
     }
   },
@@ -154,7 +154,7 @@ export const getNearOffersAction = createAsyncThunk<void, number, {
       const offers = data.map((offer) => getOffer(offer));
       dispatch(loadNearOffers(offers));
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
     }
   },
 );
@@ -171,7 +171,7 @@ export const getReviewsAction = createAsyncThunk<void, number, {
       const reviews = data.map((comment) => getReview(comment));
       dispatch(loadOfferReviews(reviews));
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
     }
   },
 );
@@ -196,7 +196,7 @@ export const addReviewAction = createAsyncThunk<void, ReviewContent, {
       const reviews = data.map((currentComment) => getReview(currentComment));
       dispatch(loadOfferReviews(reviews));
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
       dispatch(changeSubmitStatus(SubmitStatus.Error));
     }
   },
@@ -218,7 +218,7 @@ export const removeAuthAction = createAsyncThunk<void, undefined, {
         changeAuthorizationStatus(AuthorizationStatus.NoAuth),
       );
     } catch (error) {
-      errorHandle(error);
+      handleError(error);
     }
   },
 );
