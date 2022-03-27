@@ -90,7 +90,7 @@ export const setIsFavoriteAction = createAsyncThunk<void, Favorite, {
       await api.post<Hotel>(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`);
     } catch (error) {
       const status = getStatusCode(error);
-      if (status === HTTP_CODE.UNAUTHORIZED) {
+      if (status === HTTP_CODE.Unauthorized) {
         dispatch(
           changeAuthorizationStatus(AuthorizationStatus.NoAuth),
         );
