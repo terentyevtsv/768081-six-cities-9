@@ -78,6 +78,7 @@ function Login() {
             onChange={(evt: ChangeEvent<HTMLInputElement>) =>
               setEmail(evt.target.value)}
             placeholder="Email"
+            data-testid="login"
             required
           />
         </div>
@@ -91,6 +92,7 @@ function Login() {
             onChange={(evt: ChangeEvent<HTMLInputElement>) =>
               setPassword(evt.target.value)}
             placeholder="Password"
+            data-testid="password"
             required
           />
         </div>
