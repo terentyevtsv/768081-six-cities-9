@@ -1,6 +1,8 @@
-import { useState, ChangeEvent, SyntheticEvent } from 'react';
-import { useAppDispatch } from '../../hooks/hooks';
+import { useState, ChangeEvent, SyntheticEvent, useEffect } from 'react';
+import { ReviewLength, SubmitStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { addReviewAction } from '../../store/api-actions';
+import { getSubmitStatus } from '../../store/rental/selectors';
 
 type SubmitReviewFormProps =  {
   offerId: number
@@ -9,7 +11,9 @@ type SubmitReviewFormProps =  {
 function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  const dispatch =   useAppDispatch();
+  const dispatch = useAppDispatch();
+
+  const submitStatus = useAppSelector(getSubmitStatus);
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(evt.target.value, 10);
@@ -20,20 +24,29 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
     setComment(evt.target.value);
   };
 
-  const handleSubmitReview = (evt: SyntheticEvent) => {
+  const handleSubmitReview = async (evt: SyntheticEvent) => {
     evt.preventDefault();
 
-    dispatch(addReviewAction({
+    await dispatch(addReviewAction({
       comment,
       rating,
       offerId,
     }));
-
-    setRating(0);
-    setComment('');
   };
 
-  const isSubmitEnabled = !(rating > 0 && comment !== '');
+  const isSubmitDisabled =
+    rating === 0 ||
+    comment.length < ReviewLength.Min ||
+    comment.length > ReviewLength.Max;
+
+  useEffect(() => {
+    if (submitStatus === SubmitStatus.Sent) {
+      setRating(0);
+      setComment('');
+    }
+  }, [submitStatus]);
+
+  const isSending = submitStatus === SubmitStatus.Sending;
 
   return (
     <form
@@ -52,6 +65,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
           type="radio"
           onChange={handleRatingChange}
           checked={rating === 5}
+          disabled={isSending}
         />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
@@ -67,6 +81,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
           type="radio"
           onChange={handleRatingChange}
           checked={rating === 4}
+          disabled={isSending}
         />
         <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
           <svg className="form__star-image" width="37" height="33">
@@ -82,6 +97,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
           type="radio"
           onChange={handleRatingChange}
           checked={rating === 3}
+          disabled={isSending}
         />
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
@@ -97,6 +113,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
           type="radio"
           onChange={handleRatingChange}
           checked={rating === 2}
+          disabled={isSending}
         />
         <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
           <svg className="form__star-image" width="37" height="33">
@@ -112,6 +129,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
           type="radio"
           onChange={handleRatingChange}
           checked={rating === 1}
+          disabled={isSending}
         />
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
@@ -126,6 +144,9 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
+        minLength={ReviewLength.Min}
+        maxLength={ReviewLength.Max}
+        disabled={isSending}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -135,7 +156,7 @@ function SubmitReviewForm({ offerId }: SubmitReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isSubmitEnabled}
+          disabled={isSubmitDisabled || isSending}
         >
           Submit
         </button>

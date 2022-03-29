@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace, SortType } from '../../const';
+import { NameSpace, SortType, SubmitStatus } from '../../const';
 import { Rental } from '../../types/state';
 
 const initialState: Rental = {
   city: 'Paris',
   offers: [],
   sortType: SortType.Popular,
+  submitStatus: SubmitStatus.Sent,
 };
 
 export const rental = createSlice({
@@ -21,7 +22,15 @@ export const rental = createSlice({
     changeSortOption: (state, action) => {
       state.sortType = action.payload;
     },
+    changeSubmitStatus: (state, action) => {
+      state.submitStatus = action.payload;
+    },
   },
 });
 
-export const { changeCity, fillOffers, changeSortOption } =  rental.actions;
+export const {
+  changeCity,
+  fillOffers,
+  changeSortOption,
+  changeSubmitStatus,
+} = rental.actions;

@@ -1,8 +1,40 @@
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
 import { setAuthAction } from '../../store/api-actions';
+
+const isPasswordCorrect = (password: string) => {
+  if (password.length < 2) {
+    toast.info('Password size should be more than 1 symbol');
+    return false;
+  }
+
+  let charsCount = 0;
+  let figureCount = 0;
+  for (let i = 0; i < password.length; ++i) {
+    if (!password[i].match(/[0-9a-z]/i)) {
+      toast.info('Password has special symbols');
+      return false;
+    }
+
+    if (password[i].match(/[0-9]/)) {
+      ++figureCount;
+    }
+
+    if (password[i].match(/[a-z]/i)) {
+      ++charsCount;
+    }
+  }
+
+  const isCorrect = figureCount >= 1 && charsCount >= 1;
+  if (!isCorrect) {
+    toast.info('Password has not minimum 1 digit and 1 letter');
+  }
+
+  return isCorrect;
+};
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -20,12 +52,16 @@ function Login() {
         onSubmit={
           (evt: SyntheticEvent) => {
             evt.preventDefault();
+
             const tempEmail = email.trim();
-            const tempPassword = password.trim();
+            if (!isPasswordCorrect(password)) {
+              return;
+            }
+
             dispatch(
               setAuthAction({
                 email: tempEmail,
-                password: tempPassword,
+                password,
               }));
 
             navigate(AppRoute.Main);
@@ -42,6 +78,7 @@ function Login() {
             onChange={(evt: ChangeEvent<HTMLInputElement>) =>
               setEmail(evt.target.value)}
             placeholder="Email"
+            data-testid="login"
             required
           />
         </div>
@@ -55,6 +92,7 @@ function Login() {
             onChange={(evt: ChangeEvent<HTMLInputElement>) =>
               setPassword(evt.target.value)}
             placeholder="Password"
+            data-testid="password"
             required
           />
         </div>

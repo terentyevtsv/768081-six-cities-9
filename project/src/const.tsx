@@ -19,11 +19,15 @@ export const MAX_RATING = 5;
 export const getRatingPercent = (rating: number): number =>
   Math.round(rating) / MAX_RATING * 100;
 
-export const URL_PIN_DEFAULT = 'img/pin.svg';
-export const URL_PIN_CURRENT = 'img/pin-active.svg';
+export enum PinURL {
+  Default = 'img/pin.svg',
+  Current = 'img/pin-active.svg'
+}
 
-export const PIN_WIDTH = 42;
-export const PIN_HEIGHT = 68;
+export enum PinSize {
+  Width = 42,
+  Height = 68
+}
 
 export const cities = [
   'Paris',
@@ -56,10 +60,11 @@ export enum APIRoute {
   Logout =  '/logout'
 }
 
-export enum HTTP_CODE {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+export enum HttpCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
+  Ok = 200,
 }
 
 export enum NameSpace {
@@ -104,4 +109,26 @@ export const DEFAULT_OFFER: Offer = {
   previewImage: '',
   price: 0,
   rating: 0,
+};
+
+export enum MaxObjectNumber {
+  ImagesCount = 6,
+  ReviewsCount = 10
+}
+
+export enum ReviewLength {
+  Min = 50,
+  Max = 300
+}
+
+export enum SubmitStatus {
+  Sent,
+  Sending,
+  Error
+}
+
+export const randomInteger = (min: number, max: number) => {
+  // случайное число от min до (max+1)
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
 };
