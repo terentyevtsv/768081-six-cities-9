@@ -1,5 +1,5 @@
 import { address, datatype, image, internet, lorem, name } from 'faker';
-import { MaxObjectNumber, randomInteger } from '../const';
+import { cities, MaxObjectNumber, randomInteger } from '../const';
 import { getOffer, getReview } from '../services/adaptor';
 import { AuthData } from '../types/auth-data';
 import { Hotel, HouseType, Offer } from '../types/offer';
@@ -81,6 +81,8 @@ export const makeFakeReviews = (): Review[] =>
 
 export const makeFakeComments = (): Comment[] =>
   new Array(MaxObjectNumber.ReviewsCount).fill(null).map((_comment, index) => createComment(index));
+
+export const makeFakeCity = () => cities[randomInteger(0, cities.length - 1)];
 
 export const fakeAuthData: AuthData = {
   email: internet.email(),
