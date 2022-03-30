@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import SubmitReviewForm from '../submit-review-form/submit-review-form';
-import { AppRoute, AuthorizationStatus, getRatingPercent, MaxObjectNumber, OFFER_DEFAULT_ID } from '../../const';
+import { AppRoute, AuthorizationStatus, BookmarkStatus, getRatingPercent, MaxObjectNumber, OFFER_DEFAULT_ID } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
@@ -116,7 +116,13 @@ function RentalOfferPage() {
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">To bookmarks</span>
+                  <span className="visually-hidden">
+                    {
+                      isFavorite && (authorizationStatus === AuthorizationStatus.Auth)
+                        ? BookmarkStatus.In
+                        : BookmarkStatus.To
+                    }
+                  </span>
                 </button>
               </div>
               <div className="property__rating rating">

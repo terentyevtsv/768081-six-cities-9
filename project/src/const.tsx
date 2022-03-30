@@ -137,3 +137,8 @@ export const randomInteger = (min: number, max: number) => {
 
 export const validateEmail = (value: string) =>
   EMAIL_REGEXP.test(value);
+
+export enum BookmarkStatus {
+  In = 'In bookmarks',
+  To = 'To bookmarks'
+}
