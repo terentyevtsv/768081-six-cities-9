@@ -8,7 +8,7 @@ import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 import './css/map.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { MouseEvent, useEffect, useState } from 'react';
-import { getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
+import { fetchOffersAction, getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
 import { getCurrentOffer, getIsOfferExist, getNearOffers } from '../../store/offers-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import Header from '../header/header';
@@ -46,14 +46,16 @@ function RentalOfferPage() {
     return null;
   }
 
-  const handleAddToFavorites = (evt: MouseEvent) => {
+  const handleAddToFavorites = async (evt: MouseEvent) => {
     evt.preventDefault();
 
-    dispatch(setIsFavoriteAction({
+    await dispatch(setIsFavoriteAction({
       isFavorite: !isFavorite,
       offerId,
       setIsFavorite,
     }));
+
+    await dispatch(fetchOffersAction());
 
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.SignIn);
