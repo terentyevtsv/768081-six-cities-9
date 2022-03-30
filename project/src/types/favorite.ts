@@ -1,4 +1,5 @@
 export type Favorite = {
   offerId: number,
-  isFavorite: boolean
+  isFavorite: boolean,
+  setIsFavorite?: (isFavorite: boolean) => void
 };

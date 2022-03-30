@@ -34,14 +34,12 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
     dispatch(setIsFavoriteAction({
       offerId: offer.id,
       isFavorite: !isFavorite,
+      setIsFavorite,
     }));
 
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.SignIn);
-      return;
     }
-
-    setIsFavorite(!isFavorite);
   };
 
   return (

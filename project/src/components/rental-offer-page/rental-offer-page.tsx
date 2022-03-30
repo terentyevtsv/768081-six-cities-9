@@ -52,14 +52,12 @@ function RentalOfferPage() {
     dispatch(setIsFavoriteAction({
       isFavorite: !isFavorite,
       offerId,
+      setIsFavorite,
     }));
 
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.SignIn);
-      return;
     }
-
-    setIsFavorite(!isFavorite);
   };
 
   const onSignOut = () => {
