@@ -33,13 +33,12 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 
 function AllRentalOffersPage() {
   const dispatch = useAppDispatch();
-  const tempState = useAppSelector((state) => state);
 
-  const offers = getSelectedCityOffers(tempState);
-  const city = getCity(tempState);
+  const offers = useAppSelector(getSelectedCityOffers);
+  const city = useAppSelector(getCity);
 
-  const areAllOffersLoaded = getAreAllOffersLoadedStatus(tempState);
-  const allOffers = getAllOffers(tempState);
+  const areAllOffersLoaded = useAppSelector(getAreAllOffersLoadedStatus);
+  const allOffers = useAppSelector(getAllOffers);
 
   useEffect(() => {
     const cityOffers = allOffers

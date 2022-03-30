@@ -20,11 +20,10 @@ function RentalOfferPage() {
   const offerId =  parseInt(pathElements[pathElements.length - 1], 10);
 
   const dispatch = useAppDispatch();
-  const tempState = useAppSelector((state) => state);
 
-  const currentOffer = getCurrentOffer(tempState);
-  const nearOffers = getNearOffers(tempState);
-  const isOfferExist = getIsOfferExist(tempState);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearOffers = useAppSelector(getNearOffers);
+  const isOfferExist = useAppSelector(getIsOfferExist);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
