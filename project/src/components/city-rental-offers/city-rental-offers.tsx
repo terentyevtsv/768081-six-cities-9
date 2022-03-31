@@ -2,7 +2,6 @@ import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute, BookmarkStatus, getRatingPercent } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
-import { fetchOffersAction } from '../../store/api-actions';
 import { changeCity } from '../../store/rental/rental';
 import { Offer } from '../../types/offer';
 
@@ -19,8 +18,7 @@ function CityRentalOffers({
 }: CityRentalOffersProps) {
   const dispatch = useAppDispatch();
 
-  const handleRedirectToMainPage = async () => {
-    await dispatch(fetchOffersAction());
+  const handleRedirectToMainPage = () => {
     dispatch(changeCity(cityName));
   };
 
