@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { cities } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppSelector } from '../../hooks/hooks';
 import { getAreAllOffersLoadedStatus } from '../../store/offers-data/selectors';
-import { fillOffers } from '../../store/rental/rental';
-import { getCity, getCityOffers } from '../../store/rental/selectors';
+import { getCity, getSortedCityOffers } from '../../store/rental/selectors';
 import { CityContent } from '../../types/offer';
 import Cities from '../cities/cities';
 import Header from '../header/header';
@@ -32,16 +30,10 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 };
 
 function AllRentalOffersPage() {
-  const dispatch = useAppDispatch();
-
   const city = useAppSelector(getCity);
 
   const areAllOffersLoaded = useAppSelector(getAreAllOffersLoadedStatus);
-  const cityOffers = useAppSelector(getCityOffers);
-
-  useEffect(() => {
-    dispatch(fillOffers(cityOffers));
-  }, [cityOffers, dispatch]);
+  const cityOffers = useAppSelector(getSortedCityOffers);
 
   return (
     <div className="page page--gray page--main">

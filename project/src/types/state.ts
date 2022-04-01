@@ -26,7 +26,6 @@ export type UserProcess = {
 
 export type Rental = {
   city: string,
-  offers: Offer[],
   sortType: SortType,
   submitStatus: SubmitStatus
 };
