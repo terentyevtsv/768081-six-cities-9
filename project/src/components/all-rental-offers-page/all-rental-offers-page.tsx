@@ -3,7 +3,7 @@ import { cities } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { getAreAllOffersLoadedStatus } from '../../store/offers-data/selectors';
 import { fillOffers } from '../../store/rental/rental';
-import { getCity, getCityOffers, getSelectedCityOffers } from '../../store/rental/selectors';
+import { getCity, getCityOffers } from '../../store/rental/selectors';
 import { CityContent } from '../../types/offer';
 import Cities from '../cities/cities';
 import Header from '../header/header';
@@ -34,7 +34,6 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 function AllRentalOffersPage() {
   const dispatch = useAppDispatch();
 
-  const offers = useAppSelector(getSelectedCityOffers);
   const city = useAppSelector(getCity);
 
   const areAllOffersLoaded = useAppSelector(getAreAllOffersLoadedStatus);
@@ -48,7 +47,7 @@ function AllRentalOffersPage() {
     <div className="page page--gray page--main">
       <Header/>
 
-      <main className={`page__main page__main--index${offers.length === 0 ? ' page__main--index-empty' : ''}`}>
+      <main className={`page__main page__main--index${cityOffers.length === 0 ? ' page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <Cities cities={cities}/>
@@ -58,7 +57,7 @@ function AllRentalOffersPage() {
             getCitiesContent({
               areAllOffersLoaded,
               cityName: city,
-              currentOffers: offers,
+              currentOffers: cityOffers,
             })
           }
         </div>
