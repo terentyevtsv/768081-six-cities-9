@@ -4,7 +4,6 @@ import { Rental } from '../../types/state';
 
 const initialState: Rental = {
   city: 'Paris',
-  offers: [],
   sortType: SortType.Popular,
   submitStatus: SubmitStatus.Sent,
 };
@@ -15,9 +14,6 @@ export const rental = createSlice({
   reducers: {
     changeCity: (state, action) => {
       state.city = action.payload;
-    },
-    fillOffers: (state, action) => {
-      state.offers = action.payload;
     },
     changeSortOption: (state, action) => {
       state.sortType = action.payload;
@@ -30,7 +26,6 @@ export const rental = createSlice({
 
 export const {
   changeCity,
-  fillOffers,
   changeSortOption,
   changeSubmitStatus,
 } = rental.actions;

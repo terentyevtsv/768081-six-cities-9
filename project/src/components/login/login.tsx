@@ -1,7 +1,7 @@
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { AppRoute } from '../../const';
+import { AppRoute, validateEmail } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
 import { setAuthAction } from '../../store/api-actions';
 
@@ -36,6 +36,14 @@ const isPasswordCorrect = (password: string) => {
   return isCorrect;
 };
 
+const isEmailCorrect = (email: string) => {
+  if (validateEmail(email)) {
+    return true;
+  }
+
+  toast.info('Email has bad format');
+};
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +62,7 @@ function Login() {
             evt.preventDefault();
 
             const tempEmail = email.trim();
-            if (!isPasswordCorrect(password)) {
+            if (!isPasswordCorrect(password) || !isEmailCorrect(tempEmail)) {
               return;
             }
 

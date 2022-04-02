@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import SubmitReviewForm from '../submit-review-form/submit-review-form';
-import { AppRoute, AuthorizationStatus, getRatingPercent, MaxObjectNumber, OFFER_DEFAULT_ID } from '../../const';
+import { AppRoute, AuthorizationStatus, BookmarkStatus, getRatingPercent, MaxObjectNumber, OFFER_DEFAULT_ID } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import { PlaceCardType } from '../../types/offer';
@@ -8,7 +8,7 @@ import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 import './css/map.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { MouseEvent, useEffect, useState } from 'react';
-import { getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
+import { fetchOffersAction, getNearOffersAction, getOfferAction, getReviewsAction, setIsFavoriteAction } from '../../store/api-actions';
 import { getCurrentOffer, getIsOfferExist, getNearOffers } from '../../store/offers-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import Header from '../header/header';
@@ -20,11 +20,10 @@ function RentalOfferPage() {
   const offerId =  parseInt(pathElements[pathElements.length - 1], 10);
 
   const dispatch = useAppDispatch();
-  const tempState = useAppSelector((state) => state);
 
-  const currentOffer = getCurrentOffer(tempState);
-  const nearOffers = getNearOffers(tempState);
-  const isOfferExist = getIsOfferExist(tempState);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearOffers = useAppSelector(getNearOffers);
+  const isOfferExist = useAppSelector(getIsOfferExist);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
@@ -47,20 +46,20 @@ function RentalOfferPage() {
     return null;
   }
 
-  const handleAddToFavorites = (evt: MouseEvent) => {
+  const handleAddToFavorites = async (evt: MouseEvent) => {
     evt.preventDefault();
 
-    dispatch(setIsFavoriteAction({
+    await dispatch(setIsFavoriteAction({
       isFavorite: !isFavorite,
       offerId,
+      setIsFavorite,
     }));
+
+    await dispatch(fetchOffersAction());
 
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.SignIn);
-      return;
     }
-
-    setIsFavorite(!isFavorite);
   };
 
   const onSignOut = () => {
@@ -117,7 +116,13 @@ function RentalOfferPage() {
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">To bookmarks</span>
+                  <span className="visually-hidden">
+                    {
+                      isFavorite && (authorizationStatus === AuthorizationStatus.Auth)
+                        ? BookmarkStatus.In
+                        : BookmarkStatus.To
+                    }
+                  </span>
                 </button>
               </div>
               <div className="property__rating rating">

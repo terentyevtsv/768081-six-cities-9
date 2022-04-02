@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getFavoriteOffersAction, setIsFavoriteAction } from '../../store/api-actions';
+import { fetchOffersAction, getFavoriteOffersAction, setIsFavoriteAction } from '../../store/api-actions';
 import { getFavoriteOffers } from '../../store/offers-data/selectors';
 import { Offer } from '../../types/offer';
 import CityRentalOffers from '../city-rental-offers/city-rental-offers';
@@ -38,6 +38,7 @@ function FavoritesPage() {
       isFavorite: false,
     }));
     await dispatch(getFavoriteOffersAction());
+    await dispatch(fetchOffersAction());
   };
 
   return (

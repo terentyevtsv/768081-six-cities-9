@@ -1,8 +1,8 @@
 import { memo, MouseEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, getRatingPercent } from '../../const';
+import { AppRoute, AuthorizationStatus, BookmarkStatus, getRatingPercent } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { setIsFavoriteAction } from '../../store/api-actions';
+import { fetchOffersAction, setIsFavoriteAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { Offer, PlaceCardType } from '../../types/offer';
 
@@ -28,20 +28,20 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
     }
   };
 
-  const handleAddToFavorites = (evt: MouseEvent): void => {
+  const handleAddToFavorites = async (evt: MouseEvent) => {
     evt.preventDefault();
 
-    dispatch(setIsFavoriteAction({
+    await dispatch(setIsFavoriteAction({
       offerId: offer.id,
       isFavorite: !isFavorite,
+      setIsFavorite,
     }));
+
+    await dispatch(fetchOffersAction());
 
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.SignIn);
-      return;
     }
-
-    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -88,7 +88,13 @@ function RentalOfferCard({offer, placeCardType, onMouseOver}: RentalOfferCardPro
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">
+              {
+                isFavorite && (authorizationStatus === AuthorizationStatus.Auth)
+                  ? BookmarkStatus.In
+                  : BookmarkStatus.To
+              }
+            </span>
           </button>
         </div>
         <div className="place-card__rating rating">

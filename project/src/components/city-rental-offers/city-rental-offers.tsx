@@ -1,8 +1,7 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute, getRatingPercent } from '../../const';
+import { AppRoute, BookmarkStatus, getRatingPercent } from '../../const';
 import { useAppDispatch } from '../../hooks/hooks';
-import { fetchOffersAction } from '../../store/api-actions';
 import { changeCity } from '../../store/rental/rental';
 import { Offer } from '../../types/offer';
 
@@ -19,8 +18,7 @@ function CityRentalOffers({
 }: CityRentalOffersProps) {
   const dispatch = useAppDispatch();
 
-  const handleRedirectToMainPage = async () => {
-    await dispatch(fetchOffersAction());
+  const handleRedirectToMainPage = () => {
     dispatch(changeCity(cityName));
   };
 
@@ -79,7 +77,9 @@ function CityRentalOffers({
                       <svg className="place-card__bookmark-icon" width="18" height="19">
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
-                      <span className="visually-hidden">In bookmarks</span>
+                      <span className="visually-hidden">
+                        {offer.isFavorite ? BookmarkStatus.In : BookmarkStatus.To}
+                      </span>
                     </button>
                   </div>
                   <div className="place-card__rating rating">

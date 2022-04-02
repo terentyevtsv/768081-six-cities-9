@@ -1,5 +1,7 @@
 import { HouseType, Offer } from './types/offer';
 
+const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',
@@ -132,3 +134,11 @@ export const randomInteger = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 };
+
+export const validateEmail = (value: string) =>
+  EMAIL_REGEXP.test(value);
+
+export enum BookmarkStatus {
+  In = 'In bookmarks',
+  To = 'To bookmarks'
+}

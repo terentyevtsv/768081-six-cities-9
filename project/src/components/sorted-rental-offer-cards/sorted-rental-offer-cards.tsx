@@ -1,20 +1,13 @@
-import { useAppSelector } from '../../hooks/hooks';
-import { getSortedOffers } from '../../rental';
-import { getSelectedCityOffers, getSortType } from '../../store/rental/selectors';
 import { Offer, PlaceCardType } from '../../types/offer';
 import RentalOfferCards from '../rental-offer-cards/rental-offer-cards';
 import SortOptions from '../sort-options/sort-options';
 
 type SortedRentalOfferCardsProps = {
-  onOfferCardHover(offer: Offer): void
+  onOfferCardHover(offer: Offer): void,
+  sortedOffers: Offer[]
 }
 
-function SortedRentalOfferCards({onOfferCardHover}: SortedRentalOfferCardsProps) {
-  const tempState = useAppSelector((state) => state);
-  const offers = getSelectedCityOffers(tempState);
-  const sortType = getSortType(tempState);
-
-  const sortedOffers = getSortedOffers(offers, sortType);
+function SortedRentalOfferCards({onOfferCardHover, sortedOffers}: SortedRentalOfferCardsProps) {
   return (
     <>
       <SortOptions/>

@@ -4,7 +4,6 @@ import {
   changeCity,
   changeSortOption,
   changeSubmitStatus,
-  fillOffers,
   rental
 } from './rental';
 
@@ -23,22 +22,6 @@ describe('Reducer: rental', () => {
     expect(rental.reducer(state, changeCity(anotherCity)))
       .toEqual({
         city: anotherCity,
-        offers,
-        sortType: SortType.Popular,
-        submitStatus: SubmitStatus.Sent,
-      });
-  });
-
-  it('should fill offers after city changed', () => {
-    const state = {
-      city: oneCity,
-      offers: [],
-      sortType: SortType.Popular,
-      submitStatus: SubmitStatus.Sent,
-    };
-    expect(rental.reducer(state, fillOffers(offers)))
-      .toEqual({
-        city: oneCity,
         offers,
         sortType: SortType.Popular,
         submitStatus: SubmitStatus.Sent,

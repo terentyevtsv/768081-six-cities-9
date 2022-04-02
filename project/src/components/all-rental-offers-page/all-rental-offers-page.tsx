@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { cities } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { getAllOffers, getAreAllOffersLoadedStatus } from '../../store/offers-data/selectors';
-import { fillOffers } from '../../store/rental/rental';
-import { getCity, getSelectedCityOffers } from '../../store/rental/selectors';
+import { useAppSelector } from '../../hooks/hooks';
+import { getAreAllOffersLoadedStatus } from '../../store/offers-data/selectors';
+import { getCity, getSortedCityOffers } from '../../store/rental/selectors';
 import { CityContent } from '../../types/offer';
 import Cities from '../cities/cities';
 import Header from '../header/header';
@@ -32,26 +30,16 @@ const getCitiesContent = ({currentOffers, cityName, areAllOffersLoaded}: CityCon
 };
 
 function AllRentalOffersPage() {
-  const dispatch = useAppDispatch();
-  const tempState = useAppSelector((state) => state);
+  const city = useAppSelector(getCity);
 
-  const offers = getSelectedCityOffers(tempState);
-  const city = getCity(tempState);
-
-  const areAllOffersLoaded = getAreAllOffersLoadedStatus(tempState);
-  const allOffers = getAllOffers(tempState);
-
-  useEffect(() => {
-    const cityOffers = allOffers
-      .filter((offer) => offer.city.name === city);
-    dispatch(fillOffers(cityOffers));
-  }, [allOffers, city, dispatch]);
+  const areAllOffersLoaded = useAppSelector(getAreAllOffersLoadedStatus);
+  const cityOffers = useAppSelector(getSortedCityOffers);
 
   return (
     <div className="page page--gray page--main">
       <Header/>
 
-      <main className={`page__main page__main--index${offers.length === 0 ? ' page__main--index-empty' : ''}`}>
+      <main className={`page__main page__main--index${cityOffers.length === 0 ? ' page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <Cities cities={cities}/>
@@ -61,7 +49,7 @@ function AllRentalOffersPage() {
             getCitiesContent({
               areAllOffersLoaded,
               cityName: city,
-              currentOffers: offers,
+              currentOffers: cityOffers,
             })
           }
         </div>

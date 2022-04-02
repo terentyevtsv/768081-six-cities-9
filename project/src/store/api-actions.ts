@@ -85,9 +85,12 @@ export const setIsFavoriteAction = createAsyncThunk<void, Favorite, {
   extra: AxiosInstance
 }>(
   'offer/setIsFavorite',
-  async ({offerId, isFavorite}: Favorite, {dispatch, extra: api}) => {
+  async ({offerId, isFavorite, setIsFavorite}: Favorite, {dispatch, extra: api}) => {
     try {
       await api.post<Hotel>(`${APIRoute.Favorite}/${offerId}/${isFavorite ? 1 : 0}`);
+      if (setIsFavorite !== undefined) {
+        setIsFavorite(isFavorite);
+      }
     } catch (error) {
       const status = getStatusCode(error);
       if (status === HttpCode.Unauthorized) {

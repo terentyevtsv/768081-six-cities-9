@@ -9,9 +9,7 @@ type CityProps = {
 
 function Cities({cities}: CityProps) {
   const dispatch = useAppDispatch();
-  const tempState = useAppSelector((state) => state);
-
-  const selectedCity = getCity(tempState);
+  const selectedCity = useAppSelector(getCity);
 
   return (
     <section className="locations container">
